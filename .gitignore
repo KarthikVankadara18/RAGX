@@ -1,0 +1,15 @@
+.venv/
+
+__pycache__/
+
+*.pyc
+
+.env
+
+Data/Docs/
+
+Data/PDF/
+
+Data/VectorDB/
+
+.ipynb_checkpoints/
