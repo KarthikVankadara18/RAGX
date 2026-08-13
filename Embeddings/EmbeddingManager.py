@@ -3,21 +3,35 @@ from config import Config
 from Embeddings.EmbeddingStat import EmbeddingStatistics
 
 class EmbeddingManager:
+
     def __init__(self):
-        print("Here takes places the embedding layer")
+        print("Embedding Manager Initialized")
         self.model = SentenceTransformer(
             Config.EMBEDDING_MODEL
         )
-        self.embedding_stat= EmbeddingStatistics()
+        self.embedding_stat = EmbeddingStatistics()
 
-    def GenerateEmbeeding(self, chunks):
-        text=[ 
-            chunk.page_content
+    def generate_embeddings(self, chunks):
+        if not chunks:
+            raise ValueError(
+                "No chunks available for embedding."
+            )
+        texts = [
+            chunk.text
             for chunk in chunks
         ]
-        embeddings= self.model.encode(
-            text,
-            show_progress_bar= True
+        embeddings = self.model.encode(
+            texts,
+            show_progress_bar=True
         )
-        self.embedding_stat.generate_report(embeddings)
+        self.embedding_stat.generate_report(
+            embeddings
+        )
         return embeddings
+
+    def generate_query_embedding(self, query):
+        if not query or not query.strip():
+            raise ValueError(
+                "Query cannot be empty."
+            )
+        return self.model.encode(query)
