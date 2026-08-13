@@ -135,37 +135,41 @@ class DocumentAnalyzer:
         current_major_section = None
 
         # ---------------------------------------------------------
-        # Detect major and subsection headings
-        # in the order they appear in the document
+        # Major section
+        #
+        # Example:
+        # I. INTRODUCTION
+        # II. UNDERSTANDING RAG ARCHITECTURE
+        # III. STEP-BY-STEP IMPLEMENTATION GUIDE
         # ---------------------------------------------------------
 
-        heading_pattern = re.compile(
-            r"""
-            (?:
-                # Major section
-                (?P<major_number>
-                    I|II|III|IV|V|VI|VII|VIII|IX|X|XI
-                )
-                \.\s+
-                (?P<major_name>
-                    [A-Z][A-Z\-&]*
-                    (?:\s+[A-Z][A-Z\-&]*)*
-                )
+        major_pattern = re.compile(
+            r"^\s*"
+            r"(?P<number>"
+            r"I|II|III|IV|V|VI|VII|VIII|IX|X|XI"
+            r")"
+            r"\.\s+"
+            r"(?P<name>[A-Z][A-Z\s\-&]+)"
+            r"\s*$",
+            re.MULTILINE
+        )
 
-                |
+        # ---------------------------------------------------------
+        # Subsection
+        #
+        # Example:
+        # 2.1. Core Components
+        # 2.2. Retrieval System Design
+        # 3.1. Phase 1: Data Preparation and Knowledge Base Creation
+        # ---------------------------------------------------------
 
-                # Subsection
-                (?P<sub_number>
-                    \d+\.\d+
-                )
-                \.\s+
-                (?P<sub_name>
-                    [A-Z][A-Za-z0-9\-:&]*
-                    (?:\s+[A-Za-z0-9][A-Za-z0-9\-:&]*){0,15}
-                )
-            )
-            """,
-            re.VERBOSE
+        subsection_pattern = re.compile(
+            r"^\s*"
+            r"(?P<number>\d+\.\d+)"
+            r"\.\s+"
+            r"(?P<name>.+?)"
+            r"\s*$",
+            re.MULTILINE
         )
 
         for page_number, document in enumerate(
@@ -176,35 +180,74 @@ class DocumentAnalyzer:
             text = document.page_content
 
             # -----------------------------------------------------
-            # Find headings in document order
+            # Find ALL headings on this page
             # -----------------------------------------------------
 
-            for match in heading_pattern.finditer(text):
+            headings = []
+
+            for match in major_pattern.finditer(text):
+
+                headings.append(
+                    (
+                        match.start(),
+                        "major",
+                        match
+                    )
+                )
+
+            for match in subsection_pattern.finditer(text):
+
+                headings.append(
+                    (
+                        match.start(),
+                        "subsection",
+                        match
+                    )
+                )
+
+            # Important:
+            # Process headings in the order they appear.
+            headings.sort(
+                key=lambda item: item[0]
+            )
+
+            # -----------------------------------------------------
+            # Process headings
+            # -----------------------------------------------------
+
+            for _, heading_type, match in headings:
+
+                section_number = (
+                    match.group("number").strip()
+                )
+
+                section_name = (
+                    match.group("name").strip()
+                )
+
+                section_name = re.sub(
+                    r"\s+",
+                    " ",
+                    section_name
+                )
+
+                if not section_name:
+                    continue
 
                 # =================================================
                 # MAJOR SECTION
                 # =================================================
 
-                if match.group("major_number"):
+                if heading_type == "major":
 
-                    section_number = (
-                        match.group("major_number")
+                    current_major_section = (
+                        section_name
                     )
 
-                    section_name = (
-                        match.group("major_name")
+                    heading = (
+                        f"{section_number}. "
+                        f"{section_name}"
                     )
-
-                    section_name = re.sub(
-                        r"\s+",
-                        " ",
-                        section_name.strip()
-                    )
-
-                    if not section_name:
-                        continue
-
-                    current_major_section = section_name
 
                     sections.append(
                         SectionInfo(
@@ -212,7 +255,8 @@ class DocumentAnalyzer:
                             page=page_number,
                             section_type="major",
                             parent=None,
-                            number=section_number
+                            number=section_number,
+                            heading=heading
                         )
                     )
 
@@ -220,37 +264,26 @@ class DocumentAnalyzer:
                 # SUBSECTION
                 # =================================================
 
-                elif match.group("sub_number"):
+                else:
 
-                    subsection_number = (
-                        match.group("sub_number")
+                    heading = (
+                        f"{section_number}. "
+                        f"{section_name}"
                     )
-
-                    subsection_name = (
-                        match.group("sub_name")
-                    )
-
-                    subsection_name = re.sub(
-                        r"\s+",
-                        " ",
-                        subsection_name.strip()
-                    )
-
-                    if not subsection_name:
-                        continue
 
                     sections.append(
                         SectionInfo(
-                            name=subsection_name,
+                            name=section_name,
                             page=page_number,
                             section_type="subsection",
                             parent=current_major_section,
-                            number=subsection_number
+                            number=section_number,
+                            heading=heading
                         )
                     )
 
         return sections
-    # ---------------------------------------------------------
+    #---------------------------------------------------------
     # CLEANING HELPERS
     # ---------------------------------------------------------
 

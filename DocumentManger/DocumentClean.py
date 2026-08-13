@@ -15,6 +15,14 @@ class DocumentCleaner:
         return cleaned_documents
 
     def clean_text(self, text: str):
-        text = re.sub(r"\s+", " ", text)
-        text = text.strip()
-        return text
+        text = re.sub(
+            r"[ \t]+",
+            " ",
+            text
+        )
+        text = re.sub(
+            r"\n{3,}",
+            "\n\n",
+            text
+        )
+        return text.strip()

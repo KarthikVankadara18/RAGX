@@ -9,16 +9,21 @@ class MetadataStore:
     def save(self, chunks):
         metadata = []
         for chunk in chunks:
-            metadata.append({
-                "text": chunk.page_content,
-                "metadata": chunk.metadata
-            })
-
+            metadata.append(
+                {
+                    "chunk_id": chunk.chunk_id,
+                    "text": chunk.text,
+                    "metadata": chunk.metadata
+                }
+            )
         with open(
             Config.METADATA_PATH,
             "wb"
         ) as file:
-            pickle.dump(metadata, file)
+            pickle.dump(
+                metadata,
+                file
+            )
         print("Metadata Saved.")
 
     def load(self):
@@ -26,5 +31,21 @@ class MetadataStore:
             Config.METADATA_PATH,
             "rb"
         ) as file:
-            metadata = pickle.load(file)
+            metadata = pickle.load(
+                file
+            )
+
         return metadata
+
+    def get_by_ids(self, indices):
+        metadata = self.load()
+        results = []
+        for index in indices:
+            if index < 0:
+                continue
+            if index >= len(metadata):
+                continue
+            results.append(
+                metadata[index]
+            )
+        return results

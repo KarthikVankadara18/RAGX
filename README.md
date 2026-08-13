@@ -1,1 +1,1 @@
-Nothing to say 
+Active VENV: venv\Scripts\activate
