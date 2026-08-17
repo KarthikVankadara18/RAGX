@@ -1,15 +1,18 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from Chunking.Chunk import Chunk
+from config import Config
 
 
 class ChunkManager:
 
     def __init__(
         self,
-        chunk_size=800,
-        chunk_overlap=120
+        chunk_size=None,
+        chunk_overlap=None
     ):
+        chunk_size = chunk_size or Config.CHUNK_SIZE
+        chunk_overlap = chunk_overlap or Config.CHUNK_OVERLAP
 
         print("Chunk Manager Initialized")
 
@@ -41,6 +44,17 @@ class ChunkManager:
 
         chunk_id = 0
 
+        # Tracks whichever section/subsection was still "open" when we
+        # finished the previous page, so a continuation page that has
+        # no heading of its own doesn't lose its place in the
+        # document's structure (previously it silently fell back to
+        # section=None on every page without its own heading).
+        running_state = {
+            "section": None,
+            "subsection": None,
+            "is_unnumbered_major": False
+        }
+
         for page_number, document in enumerate(
             profile.documents,
             start=1
@@ -51,10 +65,11 @@ class ChunkManager:
             if not text:
                 continue
 
-            sections = self.build_page_sections(
+            sections, running_state = self.build_page_sections(
                 profile,
                 page_number,
-                text
+                text,
+                running_state
             )
 
             for section_data in sections:
@@ -64,6 +79,23 @@ class ChunkManager:
                 section = section_data["section"]
 
                 subsection = section_data["subsection"]
+
+                is_unnumbered_major = section_data["is_unnumbered_major"]
+
+                # Exclude sections that were detected as unnumbered
+                # major headings (e.g. a References/Bibliography/
+                # Appendix block, which - unlike "I. INTRODUCTION" or
+                # "II. ARCHITECTURE" - has no roman numeral in front of
+                # it). This is a structural fact already extracted by
+                # DocumentAnalyzer.detect_sections() (SectionInfo.number
+                # is None for these), not a hardcoded name lookup - so
+                # it works regardless of what the section is literally
+                # titled.
+                if (
+                    Config.EXCLUDE_UNNUMBERED_MAJOR_SECTIONS
+                    and is_unnumbered_major
+                ):
+                    continue
 
                 page_chunks = self.splitter.split_text(
                     section_text
@@ -81,11 +113,13 @@ class ChunkManager:
                             chunk_id=chunk_id,
                             text=chunk_text,
                             metadata={
+                                "chunk_id": chunk_id,
                                 "source": profile.file_path,
                                 "page": page_number,
                                 "document_type": profile.document_type,
                                 "section": section,
-                                "subsection": subsection
+                                "subsection": subsection,
+                                "is_unnumbered_major": is_unnumbered_major
                             }
                         )
                     )
@@ -100,7 +134,8 @@ class ChunkManager:
         self,
         profile,
         page_number,
-        text
+        text,
+        running_state
     ):
 
         page_sections = []
@@ -113,13 +148,19 @@ class ChunkManager:
 
         if not page_metadata:
 
-            return [
+            # No heading starts anywhere on this page - the entire
+            # page is a continuation of whatever section was already
+            # open coming in from the previous page.
+            page_sections.append(
                 {
                     "text": text,
-                    "section": None,
-                    "subsection": None
+                    "section": running_state["section"],
+                    "subsection": running_state["subsection"],
+                    "is_unnumbered_major": running_state["is_unnumbered_major"]
                 }
-            ]
+            )
+
+            return page_sections, running_state
 
         boundaries = []
 
@@ -148,13 +189,33 @@ class ChunkManager:
 
         if not boundaries:
 
-            return [
+            page_sections.append(
                 {
                     "text": text,
-                    "section": None,
-                    "subsection": None
+                    "section": running_state["section"],
+                    "subsection": running_state["subsection"],
+                    "is_unnumbered_major": running_state["is_unnumbered_major"]
                 }
-            ]
+            )
+
+            return page_sections, running_state
+
+        # Anything on this page BEFORE its first detected heading is
+        # still part of whatever section was open coming into the
+        # page (previously this leading text was silently dropped -
+        # it fell outside every boundary's [start, end) range).
+        leading_text = text[:boundaries[0]["position"]].strip()
+
+        if leading_text:
+
+            page_sections.append(
+                {
+                    "text": leading_text,
+                    "section": running_state["section"],
+                    "subsection": running_state["subsection"],
+                    "is_unnumbered_major": running_state["is_unnumbered_major"]
+                }
+            )
 
         for index, boundary in enumerate(
             boundaries
@@ -177,15 +238,32 @@ class ChunkManager:
             if not section_text:
                 continue
 
+            # A major section with no number (SectionInfo.number is
+            # None) is the structural signature of an unnumbered
+            # trailing section like References/Bibliography/Appendix -
+            # extracted from the document itself, not matched against
+            # a hardcoded name list.
+            is_unnumbered_major = (
+                section.section_type == "major"
+                and section.number is None
+            )
+
             if section.section_type == "major":
 
                 page_sections.append(
                     {
                         "text": section_text,
                         "section": section.name,
-                        "subsection": None
+                        "subsection": None,
+                        "is_unnumbered_major": is_unnumbered_major
                     }
                 )
+
+                running_state = {
+                    "section": section.name,
+                    "subsection": None,
+                    "is_unnumbered_major": is_unnumbered_major
+                }
 
             else:
 
@@ -193,8 +271,15 @@ class ChunkManager:
                     {
                         "text": section_text,
                         "section": section.parent,
-                        "subsection": section.name
+                        "subsection": section.name,
+                        "is_unnumbered_major": is_unnumbered_major
                     }
                 )
 
-        return page_sections
+                running_state = {
+                    "section": section.parent,
+                    "subsection": section.name,
+                    "is_unnumbered_major": is_unnumbered_major
+                }
+
+        return page_sections, running_state

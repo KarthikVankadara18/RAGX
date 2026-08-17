@@ -172,6 +172,21 @@ class DocumentAnalyzer:
             re.MULTILINE
         )
 
+        # ---------------------------------------------------------
+        # Standalone major sections that never carry a roman numeral,
+        # e.g. REFERENCES / BIBLIOGRAPHY / APPENDIX. Previously these
+        # were invisible to detect_sections(), so a References page
+        # silently inherited whatever numbered section came before it
+        # and could never be identified/filtered downstream.
+        # ---------------------------------------------------------
+
+        standalone_major_pattern = re.compile(
+            r"^\s*"
+            r"(?P<name>REFERENCES|BIBLIOGRAPHY|WORKS CITED|APPENDIX(?:\s+[A-Z0-9]+)?)"
+            r"\s*$",
+            re.MULTILINE
+        )
+
         for page_number, document in enumerate(
             documents,
             start=1
@@ -205,6 +220,16 @@ class DocumentAnalyzer:
                     )
                 )
 
+            for match in standalone_major_pattern.finditer(text):
+
+                headings.append(
+                    (
+                        match.start(),
+                        "standalone_major",
+                        match
+                    )
+                )
+
             # Important:
             # Process headings in the order they appear.
             headings.sort(
@@ -219,6 +244,8 @@ class DocumentAnalyzer:
 
                 section_number = (
                     match.group("number").strip()
+                    if heading_type != "standalone_major"
+                    else None
                 )
 
                 section_name = (
@@ -257,6 +284,27 @@ class DocumentAnalyzer:
                             parent=None,
                             number=section_number,
                             heading=heading
+                        )
+                    )
+
+                # =================================================
+                # STANDALONE MAJOR SECTION (no roman numeral)
+                # =================================================
+
+                elif heading_type == "standalone_major":
+
+                    current_major_section = (
+                        section_name
+                    )
+
+                    sections.append(
+                        SectionInfo(
+                            name=section_name,
+                            page=page_number,
+                            section_type="major",
+                            parent=None,
+                            number=None,
+                            heading=section_name
                         )
                     )
 

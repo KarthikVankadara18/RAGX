@@ -5,7 +5,7 @@ def main():
     retriever = Retriever()
 
     results = retriever.retrieve(
-        "What is Retrieval Augmented Generation?"
+        "What is Quality Assurance and Evaluation?"
     )
 
     print()
@@ -20,7 +20,7 @@ def main():
         )
 
         print(
-            f"Distance : {result['distance']}"
+            f"Rerank Score : {result['rerank_score']}"
         )
 
         print(

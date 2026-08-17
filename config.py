@@ -15,8 +15,14 @@ class Config:
 
     TOP_K = 5
 
+    CANDIDATE_K = 20
+
     VECTOR_DIMENSION = 384
 
     FAISS_INDEX_PATH = "Data/VectorDB/faiss.index"
 
     METADATA_PATH = "Data/VectorDB/metadata.pkl"
+
+    RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+
+    EXCLUDE_UNNUMBERED_MAJOR_SECTIONS = True

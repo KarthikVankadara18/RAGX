@@ -6,7 +6,11 @@ class FAISSManager:
 
     def __init__(self):
         print("FAISS Manager Initialized")
-        self.index = faiss.IndexFlatL2(
+        # Inner product on L2-normalized vectors == cosine similarity.
+        # (Previously IndexFlatL2 on un-normalized embeddings, which lets
+        # vector magnitude distort the ranking instead of pure direction/
+        # semantic similarity.)
+        self.index = faiss.IndexFlatIP(
             Config.VECTOR_DIMENSION
         )
 
