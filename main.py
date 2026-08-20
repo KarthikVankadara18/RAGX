@@ -1,48 +1,92 @@
 from Retrieval.Retrieval import Retriever
+from ContextBuilder.ContextOptimizer import ContextOptimizer
+from PromptBuilder.PromptBuilder import PromptBuilder
+from LLM.LLMManager import LLMManager
 
 def main():
 
+    query = input(
+        "\nEnter your question: "
+    ).strip()
+
+    if not query:
+        raise ValueError(
+            "Question cannot be empty."
+        )
+
     retriever = Retriever()
 
+    optimizer = ContextOptimizer()
+
+    prompt_builder = PromptBuilder()
+
+    llm = LLMManager()
+
     results = retriever.retrieve(
-        "What is Quality Assurance and Evaluation?"
+        query
+    )
+
+    optimized_results = (
+        optimizer.optimize(
+            results
+        )
+    )
+
+    prompt_data = (
+        prompt_builder.build(
+            query,
+            optimized_results
+        )
+    )
+
+    answer = llm.generate_response(
+        prompt_data["prompt"]
     )
 
     print()
-    print("=" * 60)
-    print("FINAL RETRIEVED RESULTS")
-    print("=" * 60)
+    print("=" * 70)
+    print("RAGX ANSWER")
+    print("=" * 70)
 
-    for result in results:
+    print(answer)
+
+    print()
+    print("=" * 70)
+    print("SOURCES")
+    print("=" * 70)
+
+    for source in prompt_data["sources"]:
 
         print(
-            f"\nChunk ID : {result['chunk_id']}"
+            f"\nSource {source['source_number']}"
         )
 
         print(
-            f"Rerank Score : {result['rerank_score']}"
+            f"Chunk ID    : "
+            f"{source['chunk_id']}"
         )
 
         print(
-            f"Page : "
-            f"{result['metadata'].get('page')}"
+            f"Page       : "
+            f"{source['page']}"
         )
 
         print(
-            f"Section : "
-            f"{result['metadata'].get('section')}"
+            f"Section    : "
+            f"{source['section']}"
         )
 
         print(
             f"Subsection : "
-            f"{result['metadata'].get('subsection')}"
+            f"{source['subsection']}"
         )
 
         print(
-            f"\nText:\n{result['text']}"
+            f"Source     : "
+            f"{source['source']}"
         )
 
-        print("-" * 60)
+        print("-" * 70)
 
 
 if __name__ == "__main__":
