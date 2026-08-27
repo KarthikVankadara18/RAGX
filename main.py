@@ -1,92 +1,37 @@
-from Retrieval.Retrieval import Retriever
-from ContextBuilder.ContextOptimizer import ContextOptimizer
-from PromptBuilder.PromptBuilder import PromptBuilder
-from LLM.LLMManager import LLMManager
+from FunctionCalling.FunctionCallingManager import (
+    FunctionCallingManager
+)
+
 
 def main():
 
+    manager = FunctionCallingManager()
+
     query = input(
-        "\nEnter your question: "
+        "\nAsk something about the document: "
     ).strip()
 
-    if not query:
-        raise ValueError(
-            "Question cannot be empty."
-        )
-
-    retriever = Retriever()
-
-    optimizer = ContextOptimizer()
-
-    prompt_builder = PromptBuilder()
-
-    llm = LLMManager()
-
-    results = retriever.retrieve(
+    result = manager.run(
         query
     )
 
-    optimized_results = (
-        optimizer.optimize(
-            results
-        )
-    )
+    print()
+    print("=" * 60)
+    print("FINAL ANSWER")
+    print("=" * 60)
 
-    prompt_data = (
-        prompt_builder.build(
-            query,
-            optimized_results
-        )
-    )
-
-    answer = llm.generate_response(
-        prompt_data["prompt"]
+    print(
+        result["answer"]
     )
 
     print()
-    print("=" * 70)
-    print("RAGX ANSWER")
-    print("=" * 70)
+    print("=" * 60)
+    print("TOOL USED")
+    print("=" * 60)
 
-    print(answer)
-
-    print()
-    print("=" * 70)
-    print("SOURCES")
-    print("=" * 70)
-
-    for source in prompt_data["sources"]:
-
-        print(
-            f"\nSource {source['source_number']}"
-        )
-
-        print(
-            f"Chunk ID    : "
-            f"{source['chunk_id']}"
-        )
-
-        print(
-            f"Page       : "
-            f"{source['page']}"
-        )
-
-        print(
-            f"Section    : "
-            f"{source['section']}"
-        )
-
-        print(
-            f"Subsection : "
-            f"{source['subsection']}"
-        )
-
-        print(
-            f"Source     : "
-            f"{source['source']}"
-        )
-
-        print("-" * 70)
+    print(
+        result["tool_called"]
+    )
 
 
 if __name__ == "__main__":

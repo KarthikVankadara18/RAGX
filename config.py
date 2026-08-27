@@ -16,6 +16,20 @@ class Config:
         os.getenv("GROQ_TEMPERATURE", "0.2")
     )
 
+    MONGODB_URI = os.getenv(
+        "MONGODB_URI"
+    )
+
+    MONGODB_DATABASE = os.getenv(
+        "MONGODB_DATABASE",
+        "ragx"
+    )
+
+    MONGODB_COLLECTION = os.getenv(
+        "MONGODB_COLLECTION",
+        "conversation_memory"
+    )
+
     GROQ_MAX_TOKENS = int(
         os.getenv("GROQ_MAX_TOKENS", "1024")
     )

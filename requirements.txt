@@ -25,3 +25,5 @@ transformers
 torch
 
 pymupdf
+
+pymongo
