@@ -53,3 +53,10 @@ class Config:
 
     FAISS_INDEX_PATH = "Data/VectorDB/faiss.index"
     METADATA_PATH = "Data/VectorDB/metadata.pkl"
+
+    MEMORY_FAISS_INDEX_PATH = (
+        "Data/Memory/memory.index"
+    )
+    MEMORY_FAISS_MAPPING_PATH = (
+        "Data/Memory/memory_mapping.json"
+    )
