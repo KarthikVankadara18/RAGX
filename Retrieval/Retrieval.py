@@ -40,11 +40,6 @@ class Retriever:
         if top_k is None:
             top_k = Config.TOP_K
 
-        # Pull a wider candidate pool from FAISS (cheap, bi-encoder
-        # search) and let the cross-encoder reranker pick the real
-        # top_k from it. This is what stops keyword-heavy but
-        # irrelevant chunks (e.g. citation lists) from being the
-        # final answer just because they scored well in vector space.
         candidate_k = max(top_k, Config.CANDIDATE_K)
 
         query_embedding = (

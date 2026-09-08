@@ -1,37 +1,61 @@
-from FunctionCalling.FunctionCallingManager import (
-    FunctionCallingManager
-)
+from RAG.RAGManager import RAGManager
 
 
 def main():
 
-    manager = FunctionCallingManager()
-
+    user_id = input("User ID: ").strip()
+    session_id = input("Session ID: ").strip()
     query = input(
-        "\nAsk something about the document: "
+        "Ask something about the document: "
     ).strip()
 
-    result = manager.run(
-        query
+    if not user_id:
+        raise ValueError(
+            "User ID cannot be empty."
+        )
+
+    if not session_id:
+        raise ValueError(
+            "Session ID cannot be empty."
+        )
+
+    if not query:
+        raise ValueError(
+            "Query cannot be empty."
+        )
+
+    manager = RAGManager(
+        user_id=user_id,
+        session_id=session_id,
     )
 
-    print()
-    print("=" * 60)
+    result = manager.chat(query)
+
+    print("\n" + "=" * 60)
     print("FINAL ANSWER")
     print("=" * 60)
+    print(result["answer"])
 
-    print(
-        result["answer"]
-    )
-
-    print()
-    print("=" * 60)
-    print("TOOL USED")
+    print("\n" + "=" * 60)
+    print("SOURCES")
     print("=" * 60)
 
-    print(
-        result["tool_called"]
-    )
+    for source in result["sources"]:
+        print(source)
+
+    print("\n" + "=" * 60)
+    print("MEMORY USED")
+    print("=" * 60)
+
+    if result["memories"]:
+
+        for memory in result["memories"]:
+            print(
+                f"- {memory['content']}"
+            )
+
+    else:
+        print("No relevant memories used.")
 
 
 if __name__ == "__main__":

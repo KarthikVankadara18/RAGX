@@ -19,23 +19,26 @@ class PromptBuilder:
                 "No context available."
             )
 
-        context = self._build_context(
+        context = self.build_context(
             context_results
         )
 
-        prompt = self._build_prompt(
-            query,
-            context
-        )
-
         return {
-            "prompt": prompt,
-            "sources": self._build_sources(
+            "prompt": self._build_prompt(
+                query=query,
+                context=context,
+            ),
+            "sources": self.build_sources(
                 context_results
-            )
+            ),
         }
 
-    def _build_context(self, results):
+    def build_context(self, results):
+
+        if not results:
+            raise ValueError(
+                "No context results available."
+            )
 
         context_parts = []
 
@@ -70,16 +73,24 @@ class PromptBuilder:
                 ""
             ).strip()
 
+            if not text:
+                continue
+
             context_parts.append(
                 f"""
-                [Source {position}]
-                Chunk ID: {chunk_id}
-                Page: {page}
-                Section: {section}
-                Subsection: {subsection}
+[Source {position}]
+Chunk ID: {chunk_id}
+Page: {page}
+Section: {section}
+Subsection: {subsection}
 
-                {text}
-                """.strip()
+{text}
+""".strip()
+            )
+
+        if not context_parts:
+            raise ValueError(
+                "No usable document text found."
             )
 
         return "\n\n".join(
@@ -93,41 +104,40 @@ class PromptBuilder:
     ):
 
         prompt = f"""
-        You are a document-grounded AI assistant.
+You are a document-grounded AI assistant.
 
-        Answer the user's question using only
-        the information provided in the context.
+Answer the user's question using only
+the information provided in the document context.
 
-        Rules:
+Rules:
 
-        1. Do not invent or assume information.
-        2. If the context does not contain enough
-        information to answer the question,
-        clearly say that the information is not
-        available in the provided document.
-        3. Prefer the most relevant and specific
-        information from the context.
-        4. Keep the answer clear and concise.
-        5. Preserve important source information
-        so the answer can be traced back to the
-        document.
+1. Do not invent or assume information.
+2. If the document context does not contain
+   enough information to answer the question,
+   clearly say that the information is not
+   available in the provided documents.
+3. Prefer the most relevant and specific
+   information from the context.
+4. Keep the answer clear and concise.
+5. Preserve important source information
+   when appropriate.
 
-        ---------------- CONTEXT ----------------
+---------------- DOCUMENT CONTEXT ----------------
 
-        {context}
+{context}
 
-        -------------- END CONTEXT --------------
+-------------- END DOCUMENT CONTEXT --------------
 
-        USER QUESTION:
+USER QUESTION:
 
-        {query}
+{query}
 
-        ANSWER:
-        """.strip()
+ANSWER:
+""".strip()
 
         return prompt
 
-    def _build_sources(self, results):
+    def build_sources(self, results):
 
         sources = []
 
@@ -158,7 +168,7 @@ class PromptBuilder:
                     ),
                     "source": metadata.get(
                         "source"
-                    )
+                    ),
                 }
             )
 

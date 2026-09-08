@@ -62,10 +62,7 @@ def main():
 
     if not all_chunks:
         raise ValueError("No chunks were produced from any input PDF.")
-
-    # Re-number chunk_ids sequentially across ALL ingested files so
-    # chunk_id always matches this chunk's position in both the FAISS
-    # index and metadata.pkl (they must stay in the same order).
+    
     for new_id, chunk in enumerate(all_chunks):
         chunk.chunk_id = new_id
         chunk.metadata["chunk_id"] = new_id
