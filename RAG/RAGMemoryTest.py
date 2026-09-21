@@ -4,7 +4,7 @@ from RAG.RAGManager import RAGManager
 
 
 def main():
-    user_id = f"rag-memory-test-{uuid.uuid4().hex[:10]}"
+    user_id = "user_001"
     session_id = f"rag-session-{uuid.uuid4().hex[:10]}"
 
     manager = RAGManager(

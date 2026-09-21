@@ -50,6 +50,7 @@ def calculator(expression: str):
 
     try:
         result = eval(expression, {"__builtins__": {}}, {})
+
         return {
             "expression": expression,
             "result": result
@@ -84,3 +85,110 @@ def search_memory(
         }
         for memory in memories
     ]
+
+
+def save_memory(
+    content: str,
+    memory_type: str,
+    user_id: str,
+    session_id: str | None = None,
+    importance: int = 3
+):
+    memory_id = get_memory_manager().store_memory(
+        user_id=user_id,
+        session_id=session_id,
+        content=content,
+        memory_type=memory_type,
+        importance=importance
+    )
+
+    return {
+        "action": "ADD",
+        "memory_id": memory_id,
+        "content": content,
+        "type": memory_type,
+        "importance": importance
+    }
+
+
+def update_memory(
+    memory_id: str,
+    content: str,
+    user_id: str,
+    memory_type: str | None = None,
+    importance: int | None = None
+):
+    manager = get_memory_manager()
+
+    memory = manager.persistent_memory.get_memory_by_id(memory_id)
+
+    if not memory:
+        return {
+            "error": "Memory not found."
+        }
+
+    if memory["user_id"] != user_id:
+        return {
+            "error": "Unauthorized memory access."
+        }
+
+    manager.persistent_memory.update_long_term_memory(
+        memory_id=memory_id,
+        content=content,
+        memory_type=memory_type or memory["type"],
+        importance=(
+            importance
+            if importance is not None
+            else memory["importance"]
+        ),
+        status="active"
+    )
+
+    manager.rebuild_index(user_id)
+
+    return {
+        "action": "UPDATE",
+        "memory_id": memory_id,
+        "content": content,
+        "type": memory_type or memory["type"],
+        "importance": (
+            importance
+            if importance is not None
+            else memory["importance"]
+        )
+    }
+
+
+def forget_memory(
+    memory_id: str,
+    user_id: str
+):
+    manager = get_memory_manager()
+
+    memory = manager.persistent_memory.get_memory_by_id(memory_id)
+
+    if not memory:
+        return {
+            "error": "Memory not found."
+        }
+
+    if memory["user_id"] != user_id:
+        return {
+            "error": "Unauthorized memory access."
+        }
+
+    manager.persistent_memory.update_long_term_memory(
+        memory_id=memory_id,
+        content=memory["content"],
+        memory_type=memory["type"],
+        importance=memory["importance"],
+        status="forgotten"
+    )
+
+    manager.rebuild_index(user_id)
+
+    return {
+        "action": "FORGET",
+        "memory_id": memory_id,
+        "content": memory["content"]
+    }

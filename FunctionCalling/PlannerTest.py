@@ -3,15 +3,15 @@ from FunctionCalling.FunctionCallingManager import FunctionCallingManager
 def main():
 
     agent = FunctionCallingManager(
-        user_id="karthik",
+        user_id="user_001",
         session_id="planning_agent_test",
     )
 
     queries = [
         "What project am I building?",
-        "What is RAG according to the uploaded document?",
-        "What is 25 * 18?",
-        "What project am I building and what is 25 * 18?",
+        "I am learning MCP and Agentic AI.",
+        "My RAGX project is now called RAGX-Enterprise v2.",
+        "Forget that I am learning MCP.",
     ]
 
     for query in queries:

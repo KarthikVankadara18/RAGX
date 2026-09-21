@@ -8,6 +8,9 @@ class Planner:
 
     VALID_ACTIONS = {
         "MEMORY_LOOKUP",
+        "MEMORY_SAVE",
+        "MEMORY_UPDATE",
+        "MEMORY_FORGET",
         "DOCUMENT_LOOKUP",
         "CALCULATION",
     }
@@ -16,9 +19,13 @@ class Planner:
         "calculator": "CALCULATION",
         "search_memory": "MEMORY_LOOKUP",
         "search_documents": "DOCUMENT_LOOKUP",
+        "save_memory": "MEMORY_SAVE",
+        "update_memory": "MEMORY_UPDATE",
+        "forget_memory": "MEMORY_FORGET",
     }
 
     def __init__(self):
+
         if not Config.GROQ_API_KEY:
             raise ValueError("GROQ_API_KEY is not configured.")
 
@@ -31,66 +38,92 @@ class Planner:
             raise ValueError("User query cannot be empty.")
 
         system_prompt = """
-You are the planning component of an AI agent.
+        You are the planning component of an AI agent.
 
-Your job is ONLY to create a plan.
-You are NOT executing tools.
+        Your job is ONLY to create a plan.
 
-Return ONLY valid JSON.
+        You are NOT executing tools.
 
-The JSON must have this exact structure:
+        Return ONLY valid JSON.
 
-{
-    "steps": [
+        The JSON must have this exact structure:
+
         {
-            "step": 1,
-            "action": "MEMORY_LOOKUP",
-            "query": "information to retrieve",
-            "reason": "why this action is needed"
+            "steps": [
+                {
+                    "step": 1,
+                    "action": "MEMORY_LOOKUP",
+                    "query": "information to retrieve",
+                    "reason": "why this action is needed"
+                }
+            ]
         }
-    ]
-}
 
-Available actions:
+        Available actions:
 
-1. MEMORY_LOOKUP
+        1. MEMORY_LOOKUP
 
-Use for information about the user:
+        Use when the user asks for information about themselves, their projects,
+        goals, preferences, skills, technologies, personal facts, or previous
+        conversations.
 
-- projects
-- goals
-- preferences
-- skills
-- personal facts
-- previous conversations
+        2. MEMORY_SAVE
 
+        Use when the user explicitly provides new durable information about
+        themselves that should be remembered.
 
-2. DOCUMENT_LOOKUP
+        Examples:
 
-Use for information that must be retrieved from uploaded documents.
+        "I am learning MCP."
+        "My project is called RAGX-Enterprise."
+        "I prefer Python."
 
+        Do NOT save ordinary questions or temporary conversation content.
 
-3. CALCULATION
+        3. MEMORY_UPDATE
 
-Use for exact mathematical calculations.
+        Use when the user explicitly changes previously stored information.
 
+        Examples:
 
-IMPORTANT RULES:
+        "My project is now called RAGX-Next."
+        "I no longer use React."
+        "My preferred language has changed to Python."
 
-- The field MUST be called "action".
-- Never use the field "tool".
-- MEMORY_LOOKUP is the only valid action for user-specific memory.
-- DOCUMENT_LOOKUP is the only valid action for uploaded documents.
-- CALCULATION is the only valid action for mathematics.
-- Never output "calculator" as an action.
-- Never output "search_memory" as an action.
-- Never output "search_documents" as an action.
-- Do not execute anything.
-- Do not produce function calls.
-- If multiple actions are required, create multiple ordered steps.
-- Each step must have a step number, action, query, and reason.
-- Keep the plan minimal.
-"""
+        IMPORTANT:
+        If the existing memory must be identified first, use MEMORY_LOOKUP before
+        MEMORY_UPDATE.
+
+        4. MEMORY_FORGET
+
+        Use when the user explicitly asks to forget or remove previously stored
+        information.
+
+        IMPORTANT:
+        If the memory_id is not already known, use MEMORY_LOOKUP first.
+
+        5. DOCUMENT_LOOKUP
+
+        Use for information that must be retrieved from uploaded documents
+        or the RAGX knowledge base.
+
+        6. CALCULATION
+
+        Use for exact mathematical calculations.
+
+        IMPORTANT RULES:
+
+        - The field MUST be called "action".
+        - Never use the field "tool".
+        - Never output function calls.
+        - Never output calculator, search_memory, search_documents,
+        save_memory, update_memory, or forget_memory as actions.
+        - Use only the six actions defined above.
+        - Create multiple ordered steps when multiple actions are required.
+        - Keep the plan minimal.
+        - Each step must contain step, action, query, and reason.
+        - Do not execute anything.
+        """
 
         response = self.client.chat.completions.create(
             model=self.model,
@@ -106,9 +139,7 @@ IMPORTANT RULES:
             ],
             temperature=0,
             max_completion_tokens=Config.GROQ_MAX_TOKENS,
-            response_format={
-                "type": "json_object"
-            }
+            response_format={"type": "json_object"}
         )
 
         content = response.choices[0].message.content
@@ -118,6 +149,7 @@ IMPORTANT RULES:
 
         try:
             plan = json.loads(content)
+
         except json.JSONDecodeError:
             return {"steps": []}
 
