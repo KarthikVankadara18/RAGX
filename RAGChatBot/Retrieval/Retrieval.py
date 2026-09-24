@@ -4,6 +4,7 @@ from Embeddings.EmbeddingManager import EmbeddingManager
 from Retrieval.RetrievalDeBug import RetrievalDebugger
 from Retrieval.ReRanker import ReRanker
 from config import Config
+from Observability.Tracer import record_event
 
 class Retriever:
 

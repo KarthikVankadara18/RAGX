@@ -1,0 +1,1966 @@
+{
+  "generated_at": "2026-09-23T06:18:24.444335+00:00",
+  "dataset_queries": 15,
+  "baseline": {
+    "name": "baseline_dense",
+    "queries": 15,
+    "metrics": {
+      "hit@1": 0.8667,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr@1": 0.8667,
+      "mrr@3": 0.9333,
+      "mrr@5": 0.9333,
+      "precision@1": 0.8667,
+      "precision@3": 0.5333,
+      "precision@5": 0.3333,
+      "recall@1": 0.3444,
+      "recall@3": 0.6333,
+      "recall@5": 0.6556
+    },
+    "per_query": [
+      {
+        "query": "What is Retrieval-Augmented Generation and why is it useful?",
+        "relevant_chunk_ids": [
+          6,
+          8,
+          9
+        ],
+        "metrics": {
+          "hit@1": 0.0,
+          "recall@1": 0.0,
+          "precision@1": 0.0,
+          "mrr@1": 0.0,
+          "hit@3": 1.0,
+          "recall@3": 0.3333333333333333,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 0.5,
+          "hit@5": 1.0,
+          "recall@5": 0.3333333333333333,
+          "precision@5": 0.2,
+          "mrr@5": 0.5
+        },
+        "results": [
+          {
+            "chunk_id": 87,
+            "score": 0.6652483940124512,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 7.762028694152832,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 6,
+            "score": 0.645995020866394,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 7.57213020324707,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 43,
+            "score": 0.4743291139602661,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 6.020382881164551,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 59,
+            "score": 0.4680738151073456,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.926307201385498,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 0,
+            "score": 0.6991521120071411,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.82852840423584,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "What are the core components of a RAG architecture?",
+        "relevant_chunk_ids": [
+          11,
+          12
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.5,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.5,
+          "precision@5": 0.2,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 11,
+            "score": 0.6212407946586609,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 9.015405654907227,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 2,
+            "score": 0.4485971927642822,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 6.84739351272583,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 8,
+            "score": 0.48652005195617676,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.0751094818115234,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 38,
+            "score": 0.5304040908813477,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 2.498222589492798,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 86,
+            "score": 0.6291972994804382,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 2.3488879203796387,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "How does hybrid retrieval combine dense vector search and keyword search?",
+        "relevant_chunk_ids": [
+          14,
+          15,
+          28
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 14,
+            "score": 0.6812244653701782,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 7.584496021270752,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 15,
+            "score": 0.5237632393836975,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.298565149307251,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 28,
+            "score": 0.5980429649353027,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 2.1114864349365234,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.5293084383010864,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -0.30284202098846436,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 5,
+            "score": 0.5896310210227966,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -0.46637850999832153,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "Why is document chunking important for RAG retrieval quality?",
+        "relevant_chunk_ids": [
+          18,
+          19,
+          20
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 18,
+            "score": 0.5720006823539734,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.25316047668457,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 19,
+            "score": 0.5935395956039429,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 4.2506608963012695,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 2,
+            "score": 0.5628457069396973,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 2.2094740867614746,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 89,
+            "score": 0.524712324142456,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 1.4438605308532715,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 45,
+            "score": 0.5661225318908691,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 1.301287293434143,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "What is semantic search in a RAG system?",
+        "relevant_chunk_ids": [
+          28,
+          29
+        ],
+        "metrics": {
+          "hit@1": 0.0,
+          "recall@1": 0.0,
+          "precision@1": 0.0,
+          "mrr@1": 0.0,
+          "hit@3": 1.0,
+          "recall@3": 0.5,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 0.5,
+          "hit@5": 1.0,
+          "recall@5": 0.5,
+          "precision@5": 0.2,
+          "mrr@5": 0.5
+        },
+        "results": [
+          {
+            "chunk_id": 21,
+            "score": 0.5910027027130127,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.23248291015625,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 28,
+            "score": 0.5672617554664612,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 4.6623077392578125,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 19,
+            "score": 0.5762274861335754,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 4.149532318115234,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.630455732345581,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.1637821197509766,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 14,
+            "score": 0.6353421807289124,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.120351552963257,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "How are vector databases used in RAG systems?",
+        "relevant_chunk_ids": [
+          21,
+          22,
+          23
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 21,
+            "score": 0.6628608703613281,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 7.148640155792236,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 22,
+            "score": 0.615023136138916,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.943175792694092,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.4985429644584656,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.608116149902344,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 38,
+            "score": 0.5789598226547241,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 4.986534595489502,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 2,
+            "score": 0.5335477590560913,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 4.945964336395264,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "Why do embedding models matter for retrieval quality?",
+        "relevant_chunk_ids": [
+          24,
+          25,
+          26
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.3333333333333333,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 24,
+            "score": 0.7150499820709229,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.739738464355469,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 15,
+            "score": 0.5779109597206116,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.401083469390869,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 21,
+            "score": 0.5160467028617859,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 2.6148200035095215,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.5440372824668884,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 1.8374849557876587,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 25,
+            "score": 0.5193929672241211,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 0.8534001111984253,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "What does the generation component do in a RAG pipeline?",
+        "relevant_chunk_ids": [
+          31,
+          32,
+          33
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.3333333333333333,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.3333333333333333,
+          "precision@5": 0.2,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 31,
+            "score": 0.45500415563583374,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 6.1388373374938965,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 11,
+            "score": 0.4022459387779236,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.9172356128692627,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.38969045877456665,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.5826597213745117,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 38,
+            "score": 0.49889954924583435,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.0677919387817383,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 43,
+            "score": 0.41732776165008545,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 1.0033634901046753,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "How can RAG systems reduce hallucinations?",
+        "relevant_chunk_ids": [
+          48,
+          49
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.5,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.5,
+          "precision@5": 0.2,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 48,
+            "score": 0.6284453272819519,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 8.108333587646484,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 43,
+            "score": 0.628503680229187,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 6.140031814575195,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 59,
+            "score": 0.3487512469291687,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 4.203780174255371,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 4,
+            "score": 0.4647098183631897,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.2560243606567383,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 1,
+            "score": 0.3648071885108948,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 2.4668235778808594,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "How can RAG be used for enterprise customer support?",
+        "relevant_chunk_ids": [
+          51,
+          52,
+          53
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.3333333333333333,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.3333333333333333,
+          "precision@5": 0.2,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 52,
+            "score": 0.4796142578125,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.461989402770996,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 22,
+            "score": 0.42208021879196167,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -0.39336109161376953,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 86,
+            "score": 0.6915634870529175,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -1.0850200653076172,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 78,
+            "score": 0.5570653676986694,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -1.4573941230773926,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 9,
+            "score": 0.47783365845680237,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -1.6079227924346924,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "What are the privacy and security considerations for enterprise RAG?",
+        "relevant_chunk_ids": [
+          53,
+          54
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 53,
+            "score": 0.4365120530128479,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.353394508361816,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 54,
+            "score": 0.6380041837692261,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 4.386593818664551,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 51,
+            "score": 0.2948951721191406,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 0.589332103729248,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 72,
+            "score": 0.27960342168807983,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -0.31270211935043335,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 78,
+            "score": 0.4247848093509674,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -1.192240834236145,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "What is GraphRAG and how does it organize information?",
+        "relevant_chunk_ids": [
+          63,
+          64
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 63,
+            "score": 0.4666583240032196,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.2334630489349365,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 55,
+            "score": 0.37615805864334106,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -2.5428876876831055,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 64,
+            "score": 0.4126095175743103,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -7.3785810470581055,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 36,
+            "score": 0.23158769309520721,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -8.945014953613281,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 12,
+            "score": 0.24247892200946808,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -9.820634841918945,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "What are the challenges of scaling RAG systems?",
+        "relevant_chunk_ids": [
+          69,
+          70,
+          71
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 70,
+            "score": 0.42693373560905457,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 7.038145065307617,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 78,
+            "score": 0.4851020276546478,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.425249099731445,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 71,
+            "score": 0.5851578116416931,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 3.601142168045044,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 43,
+            "score": 0.5256194472312927,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 0.8223503828048706,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 4,
+            "score": 0.4731225073337555,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": -0.13431426882743835,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "Why are GPUs and computational resources important for RAG deployment?",
+        "relevant_chunk_ids": [
+          72,
+          73
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 72,
+            "score": 0.6252081394195557,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 7.159214019775391,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 73,
+            "score": 0.5238176584243774,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 6.768507957458496,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 4,
+            "score": 0.5067172646522522,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 0.5735217928886414,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 70,
+            "score": 0.3919409513473511,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 0.44779062271118164,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 43,
+            "score": 0.45361030101776123,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 0.21835368871688843,
+            "retrieval_method": null
+          }
+        ]
+      },
+      {
+        "query": "What should a comprehensive RAG evaluation assess?",
+        "relevant_chunk_ids": [
+          74,
+          75,
+          76
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 75,
+            "score": 0.754236102104187,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 7.241510391235352,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 45,
+            "score": 0.69275963306427,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 6.8682026863098145,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 76,
+            "score": 0.5475836992263794,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 5.6804399490356445,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 36,
+            "score": 0.5097523927688599,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 2.222142219543457,
+            "retrieval_method": null
+          },
+          {
+            "chunk_id": 71,
+            "score": 0.5331400632858276,
+            "dense_score": null,
+            "rrf_score": null,
+            "rerank_score": 0.3542298972606659,
+            "retrieval_method": null
+          }
+        ]
+      }
+    ]
+  },
+  "hybrid": {
+    "name": "hybrid_bm25_rrf",
+    "queries": 15,
+    "metrics": {
+      "hit@1": 0.8667,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr@1": 0.8667,
+      "mrr@3": 0.9333,
+      "mrr@5": 0.9333,
+      "precision@1": 0.8667,
+      "precision@3": 0.5556,
+      "precision@5": 0.3467,
+      "recall@1": 0.3444,
+      "recall@3": 0.6556,
+      "recall@5": 0.6778
+    },
+    "per_query": [
+      {
+        "query": "What is Retrieval-Augmented Generation and why is it useful?",
+        "relevant_chunk_ids": [
+          6,
+          8,
+          9
+        ],
+        "metrics": {
+          "hit@1": 0.0,
+          "recall@1": 0.0,
+          "precision@1": 0.0,
+          "mrr@1": 0.0,
+          "hit@3": 1.0,
+          "recall@3": 0.3333333333333333,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 0.5,
+          "hit@5": 1.0,
+          "recall@5": 0.3333333333333333,
+          "precision@5": 0.2,
+          "mrr@5": 0.5
+        },
+        "results": [
+          {
+            "chunk_id": 87,
+            "score": 0.6652483940124512,
+            "dense_score": 0.6652483940124512,
+            "rrf_score": 0.03252247488101534,
+            "rerank_score": 7.762028694152832,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 6,
+            "score": 0.645995020866394,
+            "dense_score": 0.645995020866394,
+            "rrf_score": 0.03057889822595705,
+            "rerank_score": 7.57213020324707,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 43,
+            "score": 0.4743291139602661,
+            "dense_score": 0.4743291139602661,
+            "rrf_score": 0.013888888888888888,
+            "rerank_score": 6.020382881164551,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 59,
+            "score": 0.4680738151073456,
+            "dense_score": 0.4680738151073456,
+            "rrf_score": 0.028258706467661692,
+            "rerank_score": 5.926307201385498,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 0,
+            "score": 0.6991521120071411,
+            "dense_score": 0.6991521120071411,
+            "rrf_score": 0.032266458495966696,
+            "rerank_score": 5.82852840423584,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "What are the core components of a RAG architecture?",
+        "relevant_chunk_ids": [
+          11,
+          12
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.5,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.5,
+          "precision@5": 0.2,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 11,
+            "score": 0.6212407946586609,
+            "dense_score": 0.6212407946586609,
+            "rrf_score": 0.032018442622950824,
+            "rerank_score": 9.015405654907227,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 2,
+            "score": 0.4485971927642822,
+            "dense_score": 0.4485971927642822,
+            "rrf_score": 0.02804284323271665,
+            "rerank_score": 6.84739351272583,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 1,
+            "score": 6.5843375318020465,
+            "dense_score": null,
+            "rrf_score": 0.015625,
+            "rerank_score": 3.241788864135742,
+            "retrieval_method": "bm25"
+          },
+          {
+            "chunk_id": 8,
+            "score": 0.48652005195617676,
+            "dense_score": 0.48652005195617676,
+            "rrf_score": 0.027598020555767037,
+            "rerank_score": 3.0751094818115234,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 38,
+            "score": 0.5304040908813477,
+            "dense_score": 0.5304040908813477,
+            "rrf_score": 0.02819138376017471,
+            "rerank_score": 2.498222589492798,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "How does hybrid retrieval combine dense vector search and keyword search?",
+        "relevant_chunk_ids": [
+          14,
+          15,
+          28
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 14,
+            "score": 0.6812244653701782,
+            "dense_score": 0.6812244653701782,
+            "rrf_score": 0.03252247488101534,
+            "rerank_score": 7.584496021270752,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 15,
+            "score": 0.5237632393836975,
+            "dense_score": 0.5237632393836975,
+            "rrf_score": 0.030330882352941176,
+            "rerank_score": 3.298565149307251,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 28,
+            "score": 0.5980429649353027,
+            "dense_score": 0.5980429649353027,
+            "rrf_score": 0.03252247488101534,
+            "rerank_score": 2.1114864349365234,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.5293084383010864,
+            "dense_score": 0.5293084383010864,
+            "rrf_score": 0.029631255487269532,
+            "rerank_score": -0.30284202098846436,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 5,
+            "score": 0.5896310210227966,
+            "dense_score": 0.5896310210227966,
+            "rrf_score": 0.03149801587301587,
+            "rerank_score": -0.46637850999832153,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "Why is document chunking important for RAG retrieval quality?",
+        "relevant_chunk_ids": [
+          18,
+          19,
+          20
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 18,
+            "score": 0.5720006823539734,
+            "dense_score": 0.5720006823539734,
+            "rrf_score": 0.032266458495966696,
+            "rerank_score": 5.25316047668457,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 19,
+            "score": 0.5935395956039429,
+            "dense_score": 0.5935395956039429,
+            "rrf_score": 0.03225806451612903,
+            "rerank_score": 4.2506608963012695,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 2,
+            "score": 0.5628457069396973,
+            "dense_score": 0.5628457069396973,
+            "rrf_score": 0.030090497737556562,
+            "rerank_score": 2.2094740867614746,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 89,
+            "score": 0.524712324142456,
+            "dense_score": 0.524712324142456,
+            "rrf_score": 0.031024531024531024,
+            "rerank_score": 1.4438605308532715,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 45,
+            "score": 0.5661225318908691,
+            "dense_score": 0.5661225318908691,
+            "rrf_score": 0.03055037313432836,
+            "rerank_score": 1.301287293434143,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "What is semantic search in a RAG system?",
+        "relevant_chunk_ids": [
+          28,
+          29
+        ],
+        "metrics": {
+          "hit@1": 0.0,
+          "recall@1": 0.0,
+          "precision@1": 0.0,
+          "mrr@1": 0.0,
+          "hit@3": 1.0,
+          "recall@3": 0.5,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 0.5,
+          "hit@5": 1.0,
+          "recall@5": 0.5,
+          "precision@5": 0.2,
+          "mrr@5": 0.5
+        },
+        "results": [
+          {
+            "chunk_id": 21,
+            "score": 0.5910027027130127,
+            "dense_score": 0.5910027027130127,
+            "rrf_score": 0.030776515151515152,
+            "rerank_score": 5.23248291015625,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 28,
+            "score": 0.5672617554664612,
+            "dense_score": 0.5672617554664612,
+            "rrf_score": 0.03028233151183971,
+            "rerank_score": 4.6623077392578125,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 19,
+            "score": 0.5762274861335754,
+            "dense_score": 0.5762274861335754,
+            "rrf_score": 0.02964426877470356,
+            "rerank_score": 4.149532318115234,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.630455732345581,
+            "dense_score": 0.630455732345581,
+            "rrf_score": 0.03125763125763126,
+            "rerank_score": 3.1637821197509766,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 14,
+            "score": 0.6353421807289124,
+            "dense_score": 0.6353421807289124,
+            "rrf_score": 0.03021353930031804,
+            "rerank_score": 3.120351552963257,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "How are vector databases used in RAG systems?",
+        "relevant_chunk_ids": [
+          21,
+          22,
+          23
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 21,
+            "score": 0.6628608703613281,
+            "dense_score": 0.6628608703613281,
+            "rrf_score": 0.03278688524590164,
+            "rerank_score": 7.148640155792236,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 22,
+            "score": 0.615023136138916,
+            "dense_score": 0.615023136138916,
+            "rrf_score": 0.031754032258064516,
+            "rerank_score": 5.943175792694092,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.4985429644584656,
+            "dense_score": 0.4985429644584656,
+            "rrf_score": 0.02871794871794872,
+            "rerank_score": 5.608116149902344,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 38,
+            "score": 0.5789598226547241,
+            "dense_score": 0.5789598226547241,
+            "rrf_score": 0.031746031746031744,
+            "rerank_score": 4.986534595489502,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 2,
+            "score": 0.5335477590560913,
+            "dense_score": 0.5335477590560913,
+            "rrf_score": 0.02964426877470356,
+            "rerank_score": 4.945964336395264,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "Why do embedding models matter for retrieval quality?",
+        "relevant_chunk_ids": [
+          24,
+          25,
+          26
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.3333333333333333,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 24,
+            "score": 0.7150499820709229,
+            "dense_score": 0.7150499820709229,
+            "rrf_score": 0.03278688524590164,
+            "rerank_score": 5.739738464355469,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 15,
+            "score": 0.5779109597206116,
+            "dense_score": 0.5779109597206116,
+            "rrf_score": 0.031754032258064516,
+            "rerank_score": 3.401083469390869,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 21,
+            "score": 0.5160467028617859,
+            "dense_score": 0.5160467028617859,
+            "rrf_score": 0.028665028665028666,
+            "rerank_score": 2.6148200035095215,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.5440372824668884,
+            "dense_score": 0.5440372824668884,
+            "rrf_score": 0.03125763125763126,
+            "rerank_score": 1.8374849557876587,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 25,
+            "score": 0.5193929672241211,
+            "dense_score": 0.5193929672241211,
+            "rrf_score": 0.030776515151515152,
+            "rerank_score": 0.8534001111984253,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "What does the generation component do in a RAG pipeline?",
+        "relevant_chunk_ids": [
+          31,
+          32,
+          33
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.3333333333333333,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.3333333333333333,
+          "precision@5": 0.2,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 31,
+            "score": 0.45500415563583374,
+            "dense_score": 0.45500415563583374,
+            "rrf_score": 0.032018442622950824,
+            "rerank_score": 6.1388373374938965,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 11,
+            "score": 0.4022459387779236,
+            "dense_score": 0.4022459387779236,
+            "rrf_score": 0.027799227799227798,
+            "rerank_score": 3.9172356128692627,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 87,
+            "score": 0.38969045877456665,
+            "dense_score": 0.38969045877456665,
+            "rrf_score": 0.027745885954841176,
+            "rerank_score": 3.5826597213745117,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 38,
+            "score": 0.49889954924583435,
+            "dense_score": 0.49889954924583435,
+            "rrf_score": 0.032018442622950824,
+            "rerank_score": 3.0677919387817383,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 17,
+            "score": 5.904214547071616,
+            "dense_score": null,
+            "rrf_score": 0.016129032258064516,
+            "rerank_score": 2.205127000808716,
+            "retrieval_method": "bm25"
+          }
+        ]
+      },
+      {
+        "query": "How can RAG systems reduce hallucinations?",
+        "relevant_chunk_ids": [
+          48,
+          49
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.5,
+          "precision@3": 0.3333333333333333,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.5,
+          "precision@5": 0.2,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 48,
+            "score": 0.6284453272819519,
+            "dense_score": 0.6284453272819519,
+            "rrf_score": 0.03225806451612903,
+            "rerank_score": 8.108333587646484,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 43,
+            "score": 0.628503680229187,
+            "dense_score": 0.628503680229187,
+            "rrf_score": 0.031544957774465976,
+            "rerank_score": 6.140031814575195,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 14,
+            "score": 4.796374233407564,
+            "dense_score": null,
+            "rrf_score": 0.015625,
+            "rerank_score": 4.9799957275390625,
+            "retrieval_method": "bm25"
+          },
+          {
+            "chunk_id": 59,
+            "score": 0.3487512469291687,
+            "dense_score": 0.3487512469291687,
+            "rrf_score": 0.02900988017658188,
+            "rerank_score": 4.203780174255371,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 4,
+            "score": 0.4647098183631897,
+            "dense_score": 0.4647098183631897,
+            "rrf_score": 0.015384615384615385,
+            "rerank_score": 3.2560243606567383,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "How can RAG be used for enterprise customer support?",
+        "relevant_chunk_ids": [
+          51,
+          52,
+          53
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 53,
+            "score": 8.437719978350206,
+            "dense_score": null,
+            "rrf_score": 0.016129032258064516,
+            "rerank_score": 4.980937957763672,
+            "retrieval_method": "bm25"
+          },
+          {
+            "chunk_id": 52,
+            "score": 0.4796142578125,
+            "dense_score": 0.4796142578125,
+            "rrf_score": 0.03047794966520434,
+            "rerank_score": 3.461989402770996,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 54,
+            "score": 7.109654773424005,
+            "dense_score": null,
+            "rrf_score": 0.015625,
+            "rerank_score": 3.365966796875,
+            "retrieval_method": "bm25"
+          },
+          {
+            "chunk_id": 22,
+            "score": 0.42208021879196167,
+            "dense_score": 0.42208021879196167,
+            "rrf_score": 0.0259915611814346,
+            "rerank_score": -0.39336109161376953,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 86,
+            "score": 0.6915634870529175,
+            "dense_score": 0.6915634870529175,
+            "rrf_score": 0.01639344262295082,
+            "rerank_score": -1.0850200653076172,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "What are the privacy and security considerations for enterprise RAG?",
+        "relevant_chunk_ids": [
+          53,
+          54
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 53,
+            "score": 0.4365120530128479,
+            "dense_score": 0.4365120530128479,
+            "rrf_score": 0.03252247488101534,
+            "rerank_score": 5.353394508361816,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 54,
+            "score": 0.6380041837692261,
+            "dense_score": 0.6380041837692261,
+            "rrf_score": 0.03252247488101534,
+            "rerank_score": 4.386593818664551,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 51,
+            "score": 0.2948951721191406,
+            "dense_score": 0.2948951721191406,
+            "rrf_score": 0.0293236301369863,
+            "rerank_score": 0.589332103729248,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 72,
+            "score": 0.27960342168807983,
+            "dense_score": 0.27960342168807983,
+            "rrf_score": 0.029030910609857977,
+            "rerank_score": -0.31270211935043335,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 78,
+            "score": 0.4247848093509674,
+            "dense_score": 0.4247848093509674,
+            "rrf_score": 0.015625,
+            "rerank_score": -1.192240834236145,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "What is GraphRAG and how does it organize information?",
+        "relevant_chunk_ids": [
+          63,
+          64
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 63,
+            "score": 0.4666583240032196,
+            "dense_score": 0.4666583240032196,
+            "rrf_score": 0.03278688524590164,
+            "rerank_score": 3.2334630489349365,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 55,
+            "score": 0.37615805864334106,
+            "dense_score": 0.37615805864334106,
+            "rrf_score": 0.015873015873015872,
+            "rerank_score": -2.5428876876831055,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 64,
+            "score": 0.4126095175743103,
+            "dense_score": 0.4126095175743103,
+            "rrf_score": 0.030017921146953404,
+            "rerank_score": -7.3785810470581055,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 87,
+            "score": 5.3967962797475995,
+            "dense_score": null,
+            "rrf_score": 0.015625,
+            "rerank_score": -9.374388694763184,
+            "retrieval_method": "bm25"
+          },
+          {
+            "chunk_id": 12,
+            "score": 0.24247892200946808,
+            "dense_score": 0.24247892200946808,
+            "rrf_score": 0.029083245521601686,
+            "rerank_score": -9.820634841918945,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "What are the challenges of scaling RAG systems?",
+        "relevant_chunk_ids": [
+          69,
+          70,
+          71
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 70,
+            "score": 0.42693373560905457,
+            "dense_score": 0.42693373560905457,
+            "rrf_score": 0.02889344262295082,
+            "rerank_score": 7.038145065307617,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 78,
+            "score": 0.4851020276546478,
+            "dense_score": 0.4851020276546478,
+            "rrf_score": 0.029083245521601686,
+            "rerank_score": 5.425249099731445,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 71,
+            "score": 0.5851578116416931,
+            "dense_score": 0.5851578116416931,
+            "rrf_score": 0.030309988518943745,
+            "rerank_score": 3.601142168045044,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 17,
+            "score": 5.06861547589086,
+            "dense_score": null,
+            "rrf_score": 0.014492753623188406,
+            "rerank_score": 1.986816167831421,
+            "retrieval_method": "bm25"
+          },
+          {
+            "chunk_id": 59,
+            "score": 7.007848509888617,
+            "dense_score": null,
+            "rrf_score": 0.015873015873015872,
+            "rerank_score": 0.8492331504821777,
+            "retrieval_method": "bm25"
+          }
+        ]
+      },
+      {
+        "query": "Why are GPUs and computational resources important for RAG deployment?",
+        "relevant_chunk_ids": [
+          72,
+          73
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.5,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 72,
+            "score": 0.6252081394195557,
+            "dense_score": 0.6252081394195557,
+            "rrf_score": 0.03278688524590164,
+            "rerank_score": 7.159214019775391,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 73,
+            "score": 0.5238176584243774,
+            "dense_score": 0.5238176584243774,
+            "rrf_score": 0.03200204813108039,
+            "rerank_score": 6.768507957458496,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 4,
+            "score": 0.5067172646522522,
+            "dense_score": 0.5067172646522522,
+            "rrf_score": 0.03055037313432836,
+            "rerank_score": 0.5735217928886414,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 70,
+            "score": 0.3919409513473511,
+            "dense_score": 0.3919409513473511,
+            "rrf_score": 0.027479766610201392,
+            "rerank_score": 0.44779062271118164,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 43,
+            "score": 0.45361030101776123,
+            "dense_score": 0.45361030101776123,
+            "rrf_score": 0.026742734890354787,
+            "rerank_score": 0.21835368871688843,
+            "retrieval_method": "dense"
+          }
+        ]
+      },
+      {
+        "query": "What should a comprehensive RAG evaluation assess?",
+        "relevant_chunk_ids": [
+          74,
+          75,
+          76
+        ],
+        "metrics": {
+          "hit@1": 1.0,
+          "recall@1": 0.3333333333333333,
+          "precision@1": 1.0,
+          "mrr@1": 1.0,
+          "hit@3": 1.0,
+          "recall@3": 0.6666666666666666,
+          "precision@3": 0.6666666666666666,
+          "mrr@3": 1.0,
+          "hit@5": 1.0,
+          "recall@5": 0.6666666666666666,
+          "precision@5": 0.4,
+          "mrr@5": 1.0
+        },
+        "results": [
+          {
+            "chunk_id": 75,
+            "score": 0.754236102104187,
+            "dense_score": 0.754236102104187,
+            "rrf_score": 0.03252247488101534,
+            "rerank_score": 7.241510391235352,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 45,
+            "score": 0.69275963306427,
+            "dense_score": 0.69275963306427,
+            "rrf_score": 0.031754032258064516,
+            "rerank_score": 6.868203163146973,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 76,
+            "score": 0.5475836992263794,
+            "dense_score": 0.5475836992263794,
+            "rrf_score": 0.030886196246139225,
+            "rerank_score": 5.6804399490356445,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 36,
+            "score": 0.5097523927688599,
+            "dense_score": 0.5097523927688599,
+            "rrf_score": 0.029273504273504274,
+            "rerank_score": 2.222141981124878,
+            "retrieval_method": "dense"
+          },
+          {
+            "chunk_id": 71,
+            "score": 0.5331400632858276,
+            "dense_score": 0.5331400632858276,
+            "rrf_score": 0.02857142857142857,
+            "rerank_score": 0.3542298972606659,
+            "retrieval_method": "dense"
+          }
+        ]
+      }
+    ]
+  },
+  "hybrid_minus_baseline": {
+    "hit@1": 0.0,
+    "hit@3": 0.0,
+    "hit@5": 0.0,
+    "mrr@1": 0.0,
+    "mrr@3": 0.0,
+    "mrr@5": 0.0,
+    "precision@1": 0.0,
+    "precision@3": 0.0223,
+    "precision@5": 0.0134,
+    "recall@1": 0.0,
+    "recall@3": 0.0223,
+    "recall@5": 0.0222
+  }
+}

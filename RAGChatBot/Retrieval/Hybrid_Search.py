@@ -5,6 +5,7 @@ from Retrieval.RRF import ReciprocalRankFusion
 from VectorDB.Faiss_Manager import FAISSManager
 from VectorDB.MetaData_Store import MetadataStore
 from config import Config
+from Observability.Tracer import record_event
 
 
 class HybridRetriever:
@@ -62,8 +63,14 @@ class HybridRetriever:
 
         candidate_k = max(top_k, Config.CANDIDATE_K)
 
+        record_event("retrieval.start", method="hybrid", top_k=top_k, candidate_k=candidate_k)
         dense_results = self._dense_retrieve(query, candidate_k)
         sparse_results = self.bm25.retrieve(query, candidate_k)
+        record_event(
+            "retrieval.hybrid_candidates",
+            dense_count=len(dense_results),
+            sparse_count=len(sparse_results),
+        )
 
         fused_candidates = self.rrf.fuse(
             [dense_results, sparse_results],

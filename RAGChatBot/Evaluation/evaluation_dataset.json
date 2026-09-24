@@ -1,0 +1,17 @@
+[
+  {"query": "What is Retrieval-Augmented Generation and why is it useful?", "relevant_chunk_ids": [6, 8, 9]},
+  {"query": "What are the core components of a RAG architecture?", "relevant_chunk_ids": [11, 12]},
+  {"query": "How does hybrid retrieval combine dense vector search and keyword search?", "relevant_chunk_ids": [14, 15, 28]},
+  {"query": "Why is document chunking important for RAG retrieval quality?", "relevant_chunk_ids": [18, 19, 20]},
+  {"query": "What is semantic search in a RAG system?", "relevant_chunk_ids": [28, 29]},
+  {"query": "How are vector databases used in RAG systems?", "relevant_chunk_ids": [21, 22, 23]},
+  {"query": "Why do embedding models matter for retrieval quality?", "relevant_chunk_ids": [24, 25, 26]},
+  {"query": "What does the generation component do in a RAG pipeline?", "relevant_chunk_ids": [31, 32, 33]},
+  {"query": "How can RAG systems reduce hallucinations?", "relevant_chunk_ids": [48, 49]},
+  {"query": "How can RAG be used for enterprise customer support?", "relevant_chunk_ids": [51, 52, 53]},
+  {"query": "What are the privacy and security considerations for enterprise RAG?", "relevant_chunk_ids": [53, 54]},
+  {"query": "What is GraphRAG and how does it organize information?", "relevant_chunk_ids": [63, 64]},
+  {"query": "What are the challenges of scaling RAG systems?", "relevant_chunk_ids": [69, 70, 71]},
+  {"query": "Why are GPUs and computational resources important for RAG deployment?", "relevant_chunk_ids": [72, 73]},
+  {"query": "What should a comprehensive RAG evaluation assess?", "relevant_chunk_ids": [74, 75, 76]}
+]
