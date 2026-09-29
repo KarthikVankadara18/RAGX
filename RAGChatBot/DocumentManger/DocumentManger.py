@@ -1,8 +1,8 @@
-from Loaders.LoadFactor import LoaderFactory
-from DocumentManger.DocumentClean import DocumentCleaner
-from Chunking.ChunkingManager import ChunkManager
-from Models.DocumentProfile import DocumentProfile
-from DocumentAnalyzer.DocAnalyzer import DocumentAnalyzer
+from RAGChatBot.Loaders.LoadFactor import LoaderFactory
+from RAGChatBot.DocumentManger.DocumentClean import DocumentCleaner
+from RAGChatBot.Chunking.ChunkingManager import ChunkManager
+from RAGChatBot.Models.DocumentProfile import DocumentProfile
+from RAGChatBot.DocumentAnalyzer.DocAnalyzer import DocumentAnalyzer
 
 class DocManger:
     def __init__(self):

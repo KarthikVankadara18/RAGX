@@ -1,6 +1,6 @@
 import re
 
-from Models.DocumentProfile import SectionInfo
+from RAGChatBot.Models.DocumentProfile import SectionInfo
 
 
 class DocumentAnalyzer:

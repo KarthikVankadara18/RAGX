@@ -1,5 +1,5 @@
 from pathlib import Path
-from Loaders.PDF_Loader import PDFLoader
+from RAGChatBot.Loaders.PDF_Loader import PDFLoader
 
 class LoaderFactory:
     LOADERS = {

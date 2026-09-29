@@ -1,11 +1,11 @@
 from groq import Groq
-from config import Config
+from RAGChatBot.config import Config
 
-from Memory.ConversationMemory import ConversationMemory
-from Memory.ConversationSummarizer import ConversationSummarizer
-from Memory.ContextManager import ContextManager
-from Memory.PersistentMemory import PersistentMemory
-from Memory.LongTermMemoryManager import LongTermMemoryManager
+from RAGChatBot.Memory.ConversationMemory import ConversationMemory
+from RAGChatBot.Memory.ConversationSummarizer import ConversationSummarizer
+from RAGChatBot.Memory.ContextManager import ContextManager
+from RAGChatBot.Memory.PersistentMemory import PersistentMemory
+from RAGChatBot.Memory.LongTermMemoryManager import LongTermMemoryManager
 
 
 class MemoryLLMManager:

@@ -1,4 +1,4 @@
-from RAG.RAGManager import RAGManager
+from RAGChatBot.RAG.RAGManager import RAGManager
 
 
 def main():

@@ -1,4 +1,4 @@
-from config import Config
+from RAGChatBot.config import Config
 
 class ChunkStatistics:
 

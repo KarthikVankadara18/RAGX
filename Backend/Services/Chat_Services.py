@@ -16,12 +16,10 @@ class ChatService:
         )
 
     def process_message(self, message: str):
-
-        # TODO:
-        # Connect this method to the existing
+        result = self.agent.run(message)
 
         return {
-            "response": f"Received message: {message}",
+            "response": result.get("answer", ""),
             "user_id": self.user_id,
             "session_id": self.session_id
         }

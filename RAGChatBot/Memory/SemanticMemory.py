@@ -4,7 +4,7 @@ import os
 import faiss
 import numpy as np
 
-from config import Config
+from RAGChatBot.config import Config
 
 
 class SemanticMemory:

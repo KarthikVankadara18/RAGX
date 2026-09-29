@@ -14,22 +14,22 @@ Usage:
 import sys
 from pathlib import Path
 
-from DocumentManger.DocumentManger import DocManger
-from Embeddings.EmbeddingManager import EmbeddingManager
-from VectorDB.Faiss_Manager import FAISSManager
-from VectorDB.MetaData_Store import MetadataStore
-from config import Config
+from RAGChatBot.DocumentManger.DocumentManger import DocManger
+from RAGChatBot.Embeddings.EmbeddingManager import EmbeddingManager
+from RAGChatBot.VectorDB.Faiss_Manager import FAISSManager
+from RAGChatBot.VectorDB.MetaData_Store import MetadataStore
+from RAGChatBot.config import Config
 
 
 def get_pdf_paths(cli_args):
     if cli_args:
         return [Path(p) for p in cli_args]
 
-    pdf_dir = Path("Data/PDF")
+    pdf_dir = Config.DATA_DIR / "PDF"
     if not pdf_dir.exists():
         raise FileNotFoundError(
             f"No PDFs given and '{pdf_dir}' does not exist. "
-            f"Put your PDFs in Data/PDF/ or pass a path as an argument."
+            f"Put your PDFs in RAGChatBot/Data/PDF/ or pass a path as an argument."
         )
 
     pdf_paths = sorted(pdf_dir.glob("*.pdf"))

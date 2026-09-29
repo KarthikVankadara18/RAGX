@@ -1,7 +1,7 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from Chunking.Chunk import Chunk
-from config import Config
+from RAGChatBot.Chunking.Chunk import Chunk
+from RAGChatBot.config import Config
 
 
 class ChunkManager:

@@ -1,6 +1,6 @@
-from Retrieval.Retrieval import Retriever
-from Memory.PersistentMemory import PersistentMemory
-from Memory.LongTermMemoryManager import LongTermMemoryManager
+from RAGChatBot.Retrieval.Retrieval import Retriever
+from RAGChatBot.Memory.PersistentMemory import PersistentMemory
+from RAGChatBot.Memory.LongTermMemoryManager import LongTermMemoryManager
 
 
 retriever = Retriever()

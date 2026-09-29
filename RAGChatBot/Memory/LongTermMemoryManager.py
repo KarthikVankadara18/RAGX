@@ -1,10 +1,10 @@
 import math
 from datetime import datetime, timezone
 
-from Memory.MemoryDecision import MemoryDecision
-from Memory.MemoryEmbeddingManager import MemoryEmbeddingManager
-from Memory.MemoryExtractor import MemoryExtractor
-from Memory.SemanticMemory import SemanticMemory
+from RAGChatBot.Memory.MemoryDecision import MemoryDecision
+from RAGChatBot.Memory.MemoryEmbeddingManager import MemoryEmbeddingManager
+from RAGChatBot.Memory.MemoryExtractor import MemoryExtractor
+from RAGChatBot.Memory.SemanticMemory import SemanticMemory
 
 
 class LongTermMemoryManager:

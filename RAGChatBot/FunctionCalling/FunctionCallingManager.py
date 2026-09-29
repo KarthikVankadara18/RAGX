@@ -1,17 +1,21 @@
 import asyncio
 import json
+import uuid
 
 from groq import Groq
-from config import Config
+from RAGChatBot.config import Config
 
-from FunctionCalling.AgentState import AgentState
-from FunctionCalling.RuntimeContext import RuntimeContext
-from FunctionCalling.ToolRegistry import ToolRegistry
-from FunctionCalling.Planner import Planner
-from FunctionCalling.RecoveryManager import RecoveryManager
-from FunctionCalling.SecurityManager import SecurityManager
+from RAGChatBot.FunctionCalling.AgentState import AgentState
+from RAGChatBot.FunctionCalling.RuntimeContext import RuntimeContext
+from RAGChatBot.FunctionCalling.ToolRegistry import ToolRegistry
+from RAGChatBot.FunctionCalling.Planner import Planner
+from RAGChatBot.FunctionCalling.RecoveryManager import RecoveryManager
+from RAGChatBot.FunctionCalling.SecurityManager import SecurityManager
 
-from FunctionCalling.Tools import (
+from RAGChatBot.Memory.PersistentMemory import PersistentMemory
+from RAGChatBot.Memory.ConversationMemory import ConversationMemory
+
+from RAGChatBot.FunctionCalling.Tools import (
     search_documents,
     calculator,
     search_memory,
@@ -41,8 +45,21 @@ class FunctionCallingManager:
         self.model = Config.GROQ_MODEL
         self.max_iterations = 5
 
+        # A session id is required for MongoDB conversation history.
+        # If the caller does not provide one, create a stable id for this agent instance.
+        if not session_id:
+            session_id = str(uuid.uuid4())
+
         self.runtime_context = RuntimeContext(
             user_id=user_id,
+            session_id=session_id,
+        )
+
+        # MongoDB-backed conversation memory.
+        # This stores only user/assistant chat history in conversation_memory.
+        self.persistent_memory = PersistentMemory()
+        self.conversation_memory = ConversationMemory(
+            persistent_memory=self.persistent_memory,
             session_id=session_id,
         )
 
@@ -301,6 +318,15 @@ class FunctionCallingManager:
         "CALCULATION": "calculator",
     }
 
+    action = step.get("action")
+    query = step.get("query")
+
+    authorization = self.security_manager.authorize_action(action)
+    if not authorization["allowed"]:
+        raise PermissionError(authorization["reason"])
+
+    user_id = self.security_manager.get_user_id()
+    session_id = self.security_manager.get_session_id()
 
     def execute_single_step(self, step, state):
 
@@ -719,6 +745,11 @@ RULES:
                 "state": state,
             }
             
+    def _save_assistant_response(self, answer):
+        """Persist a successful assistant response to MongoDB."""
+        if answer and answer.strip():
+            self.conversation_memory.add_assistant_message(answer.strip())
+
     def run(self, user_query):
 
         if not user_query or not user_query.strip():
@@ -797,12 +828,18 @@ IMPORTANT TOOL RULES:
                 ),
             },
 
+            # Previous user/assistant turns loaded from MongoDB.
+            *self.conversation_memory.get_recent_messages(),
+
             {
                 "role": "user",
                 "content": user_query,
             }
 
         ]
+
+        # Persist the incoming user message before processing it.
+        self.conversation_memory.add_user_message(user_query)
 
         try:
 
@@ -845,8 +882,11 @@ IMPORTANT TOOL RULES:
                     print()
                     print("AGENT FINISHED")
 
+                    answer = message.content or ""
+                    self._save_assistant_response(answer)
+
                     return {
-                        "answer": message.content,
+                        "answer": answer,
                         "state": state,
                     }
 

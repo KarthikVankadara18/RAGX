@@ -1,6 +1,6 @@
 from sentence_transformers import SentenceTransformer
-from config import Config
-from Embeddings.EmbeddingStat import EmbeddingStatistics
+from RAGChatBot.config import Config
+from RAGChatBot.Embeddings.EmbeddingStat import EmbeddingStatistics
 
 class EmbeddingManager:
 

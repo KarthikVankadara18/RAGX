@@ -2,10 +2,10 @@ import json
 import os
 from datetime import datetime, timezone
 
-from Retrieval.Retrieval import Retriever
-from Retrieval.Hybrid_Search import HybridRetriever
-from Evaluation.RetrievalEvaluator import RetrievalEvaluator
-from Observability.Tracer import observability
+from RAGChatBot.Retrieval.Retrieval import Retriever
+from RAGChatBot.Retrieval.Hybrid_Search import HybridRetriever
+from RAGChatBot.Evaluation.RetrievalEvaluator import RetrievalEvaluator
+from RAGChatBot.Observability.Tracer import observability
 
 
 class EvaluationRunner:

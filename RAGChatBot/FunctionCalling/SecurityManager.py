@@ -7,6 +7,12 @@ class SecurityManager:
         "MEMORY_FORGET",
         "DOCUMENT_LOOKUP",
         "CALCULATION",
+        "WEB_SEARCH",
+        "URL_FETCH",
+        "KB_STATUS",
+        "SOURCE_LIST",
+        "SOURCE_LOOKUP",
+        "CURRENT_DATETIME",
     }
 
     PROTECTED_ACTIONS = {

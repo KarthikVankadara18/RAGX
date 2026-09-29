@@ -1,5 +1,5 @@
 from sentence_transformers import SentenceTransformer
-from config import Config
+from RAGChatBot.config import Config
 
 class MemoryEmbeddingManager:
 

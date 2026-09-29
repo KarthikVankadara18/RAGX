@@ -7,7 +7,7 @@ class MCPClientManager:
 
         self.server = StdioServerParameters(
             command="uv",
-            args=["run", "MCP/Server.py"],
+            args=["run", "RAGChatBot/MCP/Server.py"],
         )
 
     async def call_tool(self, tool_name: str, arguments: dict):

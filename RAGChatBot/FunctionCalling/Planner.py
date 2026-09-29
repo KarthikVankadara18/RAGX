@@ -1,7 +1,7 @@
 import json
 
 from groq import Groq
-from config import Config
+from RAGChatBot.config import Config
 
 
 class Planner:
@@ -13,6 +13,12 @@ class Planner:
         "MEMORY_FORGET",
         "DOCUMENT_LOOKUP",
         "CALCULATION",
+        "WEB_SEARCH",
+        "URL_FETCH",
+        "KB_STATUS",
+        "SOURCE_LIST",
+        "SOURCE_LOOKUP",
+        "CURRENT_DATETIME",
     }
 
     ACTION_ALIASES = {
@@ -22,6 +28,12 @@ class Planner:
         "save_memory": "MEMORY_SAVE",
         "update_memory": "MEMORY_UPDATE",
         "forget_memory": "MEMORY_FORGET",
+        "web_search": "WEB_SEARCH",
+        "fetch_url": "URL_FETCH",
+        "get_knowledge_base_status": "KB_STATUS",
+        "list_document_sources": "SOURCE_LIST",
+        "search_rag_by_source": "SOURCE_LOOKUP",
+        "get_current_datetime": "CURRENT_DATETIME",
     }
 
     def __init__(self):
@@ -111,6 +123,30 @@ class Planner:
 
         Use for exact mathematical calculations.
 
+        7. WEB_SEARCH
+
+        Use when the user asks for current or external web information.
+
+        8. URL_FETCH
+
+        Use when the user provides a public URL and asks about its contents.
+
+        9. KB_STATUS
+
+        Use when the user asks about knowledge-base readiness, size, sources, or retrieval configuration.
+
+        10. SOURCE_LIST
+
+        Use when the user asks which documents or sources are indexed.
+
+        11. SOURCE_LOOKUP
+
+        Use for a question restricted to a particular indexed source. Format query as: source || question.
+
+        12. CURRENT_DATETIME
+
+        Use when the current date or time is required.
+
         IMPORTANT RULES:
 
         - The field MUST be called "action".
@@ -118,7 +154,7 @@ class Planner:
         - Never output function calls.
         - Never output calculator, search_memory, search_documents,
         save_memory, update_memory, or forget_memory as actions.
-        - Use only the six actions defined above.
+        - Use only the twelve actions defined above.
         - Create multiple ordered steps when multiple actions are required.
         - Keep the plan minimal.
         - Each step must contain step, action, query, and reason.

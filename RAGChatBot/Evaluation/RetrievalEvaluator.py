@@ -44,7 +44,7 @@ class RetrievalEvaluator:
 
         per_query = []
         totals = {}
-        from Observability.Tracer import observability
+        from RAGChatBot.Observability.Tracer import observability
 
         for item in dataset:
             query = item["query"]

@@ -1,5 +1,5 @@
 from groq import Groq
-from config import Config
+from RAGChatBot.config import Config
 
 
 class LLMManager:

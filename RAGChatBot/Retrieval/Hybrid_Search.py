@@ -1,11 +1,11 @@
-from Embeddings.EmbeddingManager import EmbeddingManager
-from Retrieval.BM25Retriever import BM25Retriever
-from Retrieval.ReRanker import ReRanker
-from Retrieval.RRF import ReciprocalRankFusion
-from VectorDB.Faiss_Manager import FAISSManager
-from VectorDB.MetaData_Store import MetadataStore
-from config import Config
-from Observability.Tracer import record_event
+from RAGChatBot.Embeddings.EmbeddingManager import EmbeddingManager
+from RAGChatBot.Retrieval.BM25Retriever import BM25Retriever
+from RAGChatBot.Retrieval.ReRanker import ReRanker
+from RAGChatBot.Retrieval.RRF import ReciprocalRankFusion
+from RAGChatBot.VectorDB.Faiss_Manager import FAISSManager
+from RAGChatBot.VectorDB.MetaData_Store import MetadataStore
+from RAGChatBot.config import Config
+from RAGChatBot.Observability.Tracer import record_event
 
 
 class HybridRetriever:

@@ -2,7 +2,7 @@ import re
 
 from rank_bm25 import BM25Okapi
 
-from config import Config
+from RAGChatBot.config import Config
 
 
 class BM25Retriever:
@@ -17,7 +17,7 @@ class BM25Retriever:
         print("BM25 Retriever Initialized")
 
         if documents is None:
-            from VectorDB.MetaData_Store import MetadataStore
+            from RAGChatBot.VectorDB.MetaData_Store import MetadataStore
             documents = MetadataStore().load()
 
         if not documents:

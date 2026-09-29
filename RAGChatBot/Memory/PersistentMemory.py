@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from bson import ObjectId
 from pymongo import MongoClient
 
-from config import Config
+from RAGChatBot.config import Config
 
 
 class PersistentMemory:

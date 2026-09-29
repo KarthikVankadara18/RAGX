@@ -1,7 +1,7 @@
 from groq import Groq
 from pydantic import BaseModel, Field
 from typing import List
-from config import Config
+from RAGChatBot.config import Config
 import json
 
 

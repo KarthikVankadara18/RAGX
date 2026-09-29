@@ -1,8 +1,8 @@
 import json
 
 from groq import Groq
-from config import Config
-from StructuredOutput.Schemas import CandidateAnalysis
+from RAGChatBot.config import Config
+from RAGChatBot.StructuredOutput.Schemas import CandidateAnalysis
 
 
 class StructuredOutputManager:

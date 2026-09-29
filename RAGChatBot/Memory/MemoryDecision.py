@@ -4,7 +4,7 @@ import json
 from groq import Groq
 from pydantic import BaseModel
 
-from config import Config
+from RAGChatBot.config import Config
 
 
 class MemoryDecisionResult(BaseModel):

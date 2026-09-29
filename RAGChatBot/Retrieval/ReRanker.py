@@ -1,6 +1,6 @@
 from sentence_transformers import CrossEncoder
 
-from config import Config
+from RAGChatBot.config import Config
 
 
 class ReRanker:

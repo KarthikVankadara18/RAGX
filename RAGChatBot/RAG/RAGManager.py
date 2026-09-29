@@ -1,12 +1,12 @@
-from ContextBuilder.ContextOptimizer import ContextOptimizer
-from LLM.LLMManager import LLMManager
-from Memory.ContextManager import ContextManager
-from Memory.ConversationMemory import ConversationMemory
-from Memory.ConversationSummarizer import ConversationSummarizer
-from Memory.LongTermMemoryManager import LongTermMemoryManager
-from Memory.PersistentMemory import PersistentMemory
-from PromptBuilder.PromptBuilder import PromptBuilder
-from Retrieval.Retrieval import Retriever
+from RAGChatBot.ContextBuilder.ContextOptimizer import ContextOptimizer
+from RAGChatBot.LLM.LLMManager import LLMManager
+from RAGChatBot.Memory.ContextManager import ContextManager
+from RAGChatBot.Memory.ConversationMemory import ConversationMemory
+from RAGChatBot.Memory.ConversationSummarizer import ConversationSummarizer
+from RAGChatBot.Memory.LongTermMemoryManager import LongTermMemoryManager
+from RAGChatBot.Memory.PersistentMemory import PersistentMemory
+from RAGChatBot.PromptBuilder.PromptBuilder import PromptBuilder
+from RAGChatBot.Retrieval.Retrieval import Retriever
 
 
 class RAGManager:

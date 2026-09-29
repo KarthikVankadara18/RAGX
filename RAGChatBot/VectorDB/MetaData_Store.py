@@ -1,5 +1,5 @@
 import pickle
-from config import Config
+from RAGChatBot.config import Config
 
 class MetadataStore:
 

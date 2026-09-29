@@ -5,7 +5,7 @@ from mcp import Client, StdioServerParameters
 
 server = StdioServerParameters(
     command="uv",
-    args=["run", "MCP/Server.py"],
+    args=["run", "RAGChatBot/MCP/Server.py"],
 )
 
 def extract_contents(result):
