@@ -15,10 +15,12 @@ class ConversationMemory:
         self.max_recent_messages = max_recent_messages
 
         self.messages = self.persistent_memory.load_messages(
+            user_id,
             session_id
         )
 
         self.summary = self.persistent_memory.load_summary(
+            user_id,
             session_id
         )
 
@@ -73,6 +75,7 @@ class ConversationMemory:
         self.summary = summary
 
         self.persistent_memory.save_summary(
+            self.user_id,
             self.session_id,
             summary
         )
@@ -84,6 +87,7 @@ class ConversationMemory:
         self.summary = ""
 
         self.persistent_memory.clear_session(
+            self.user_id,   
             self.session_id
         )
 

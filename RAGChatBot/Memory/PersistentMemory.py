@@ -40,11 +40,12 @@ class PersistentMemory:
             "content": content,
         })
 
-    def load_messages(self, session_id):
+    def load_messages(self, session_id, user_id):
         cursor = (
             self.collection
             .find({
                 "session_id": session_id,
+                "user_id": user_id,
                 "role": {"$in": ["user", "assistant"]},
             })
             .sort("_id", 1)
@@ -55,22 +56,23 @@ class PersistentMemory:
             for document in cursor
         ]
 
-    def save_summary(self, session_id, summary):
+    def save_summary(self, session_id, user_id, summary):
         self.collection.update_one(
-            {"session_id": session_id, "role": "summary"},
+            {"session_id": session_id, "user_id": user_id, "role": "summary"},
             {"$set": {"content": summary}},
             upsert=True,
         )
 
-    def load_summary(self, session_id):
+    def load_summary(self, session_id, user_id):
         document = self.collection.find_one({
             "session_id": session_id,
+            "user_id": user_id,
             "role": "summary",
         })
         return document.get("content", "") if document else ""
 
-    def clear_session(self, session_id):
-        self.collection.delete_many({"session_id": session_id})
+    def clear_session(self, session_id, user_id):
+        self.collection.delete_many({"session_id": session_id, "user_id": user_id})
 
 
     @staticmethod

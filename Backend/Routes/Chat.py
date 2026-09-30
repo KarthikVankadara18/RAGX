@@ -1,5 +1,6 @@
-from fastapi import APIRouter
-from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel, Field
+
 from Backend.Services.Chat_Services import ChatService
 
 router = APIRouter(
@@ -8,30 +9,65 @@ router = APIRouter(
 )
 
 class ChatRequest(BaseModel):
-    message: str
-    user_id: str
-    session_id: str | None = None
+
+    message: str = Field(
+        ...,
+        min_length=1,
+        description="User message"
+    )
+
+    user_id: str = Field(
+        ...,
+        min_length=1,
+        description="User identifier"
+    )
+
+    session_id: str | None = Field(
+        default=None,
+        description="Existing conversation session ID"
+    )
 
 class ChatResponse(BaseModel):
-    response: str
-    user_id: str
-    session_id: str | None = None
 
-@router.post("/chat", response_model=ChatResponse)
+    response: str
+
+    user_id: str
+
+    session_id: str
+
+    tools_used: list[str] = Field(
+        default_factory=list
+    )
+
+@router.post(
+    "",
+    response_model=ChatResponse
+)
 def chat(request: ChatRequest):
 
-    print(
-        f"Received chat request: "
-        f"message='{request.message}' "
-        f"user_id='{request.user_id}' "
-        f"session_id='{request.session_id}'"
-    )
+    try:
 
-    service = ChatService(
-        user_id=request.user_id,
-        session_id=request.session_id
-    )
+        service = ChatService(
+            user_id=request.user_id,
+            session_id=request.session_id
+        )
 
-    result = service.process_message(request.message)
+        result = service.process_message(
+            request.message
+        )
 
-    return result
+        return result
+
+    except ValueError as exc:
+
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc)
+        )
+
+    except Exception as exc:
+
+        raise HTTPException(
+            status_code=500,
+            detail="Internal server error."
+        )

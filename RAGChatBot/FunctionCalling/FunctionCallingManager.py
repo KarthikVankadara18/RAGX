@@ -163,6 +163,7 @@ class FunctionCallingManager:
 
         result = search_memory(
             query=query,
+            long_term_memory=self.persistent_memory,
             user_id=self.runtime_context.user_id,
             session_id=self.runtime_context.session_id,
         )
@@ -761,69 +762,89 @@ RULES:
 
             {
                 "role": "system",
-                "content": (
-                    """
-You are an intelligent AI agent.
+                "content": """
+    You are an intelligent AI agent.
 
-Your job is to answer the user's request accurately
-using the available tools when necessary.
+    Your job is to answer the user's request accurately
+    using the available tools when necessary.
 
-AVAILABLE TOOLS:
+    AVAILABLE TOOLS:
 
-1. search_memory
+    1. search_memory
 
-Use this FIRST when the user asks about themselves,
-their projects, goals, preferences, skills,
-personal facts, previous conversations,
-or information previously remembered about them.
+    Use this when the user asks about themselves,
+    their projects, goals, preferences, skills,
+    personal facts, previous conversations,
+    or information previously remembered about them.
 
-Examples:
+    2. search_documents
 
-- What project am I building?
-- What are my goals?
-- What technologies am I using?
-- What do you remember about me?
+    Use this when the answer requires information
+    from the uploaded document collection.
 
-2. search_documents
+    Examples:
 
-Use this when the user explicitly asks about information
-contained in the uploaded documents or asks a knowledge
-question that requires the document collection.
+    - What does the uploaded document say about RAG?
+    - According to the PDF, what are the phases of RAG?
+    - Explain hybrid search from the documents.
+    - What does the document say about vector databases?
 
-Examples:
+    3. calculator
 
-- What does the uploaded document say about RAG?
-- Explain hybrid search from the documents.
-- According to the PDF, what are the challenges of RAG?
+    Use this when an exact mathematical calculation
+    is required.
 
-3. calculator
+    IMPORTANT TOOL RULES:
 
-Use this when an exact mathematical calculation is required.
+    - Choose the tool based on the source of information required.
+    - Personal/user-specific information belongs to search_memory.
+    - Uploaded-document information belongs to search_documents.
+    - Mathematical calculations belong to calculator.
 
-IMPORTANT TOOL RULES:
+    SEARCH_DOCUMENTS RULES:
 
-- Choose the tool based on the SOURCE of information required.
-- Personal/user-specific information belongs to search_memory.
-- Uploaded-document information belongs to search_documents.
-- Mathematical calculations belong to calculator.
-- Do not use search_documents to answer questions about the user.
-- Do not use search_memory for general document knowledge.
-- Do not call the same tool repeatedly for the same information
-  unless the previous result was clearly insufficient.
-- After receiving sufficient information from a tool,
-  stop calling tools and provide the final answer.
-- You may use multiple different tools when the user's question
-  genuinely requires multiple sources.
-- Do not use tools unnecessarily.
-- Never invent personal information that was not returned
-  by search_memory.
-- Never invent document information that was not returned
-  by search_documents.
-"""
-                ),
+    - When search_documents returns useful evidence, use that
+    evidence to construct the answer.
+    - Do not repeatedly search for minor wording variations
+    when the existing results already contain enough evidence.
+    - If multiple retrieved chunks answer different parts of
+    the question, combine them into one answer.
+    - Prefer the retrieved document evidence over your own
+    general knowledge.
+    - Never invent document facts that were not returned by
+    search_documents.
+
+    SOURCE INFORMATION:
+
+    When search_documents returns source, page, section,
+    or subsection metadata, preserve and use it in the answer.
+
+    For document-based answers, include source information
+    when useful, for example:
+
+    Source: RAGPIPELINE.pdf
+    Page: 3
+    Section: 3.1. Phase 1: Data Preparation and Knowledge Base Creation
+
+    Do not invent page numbers or source names.
+
+    FINAL ANSWER RULE:
+
+    Once you have enough information to answer the user's
+    question, STOP using tools and provide the final answer.
+
+    Do not continue searching simply to make the answer more
+    complete if the retrieved evidence is already sufficient.
+
+    If several search results contain different phases,
+    sections, or pieces of information, synthesize them
+    into one coherent answer.
+
+    Never return an empty answer when useful tool results
+    are already available.
+    """
             },
 
-            # Previous user/assistant turns loaded from MongoDB.
             *self.conversation_memory.get_recent_messages(),
 
             {
@@ -833,14 +854,15 @@ IMPORTANT TOOL RULES:
 
         ]
 
-        # Persist the incoming user message before processing it.
-        self.conversation_memory.add_user_message(user_query)
+        self.conversation_memory.add_user_message(
+            user_query
+        )
+
+        document_search_count = 0
 
         try:
 
-            for _ in range(
-                self.max_iterations
-            ):
+            for _ in range(self.max_iterations):
 
                 state.increment_iteration()
 
@@ -852,6 +874,14 @@ IMPORTANT TOOL RULES:
                 )
                 print("=" * 60)
 
+                tool_choice = "auto"
+
+                # If document search has already been used
+                # several times, force the model to synthesize
+                # the evidence instead of searching forever.
+                if document_search_count >= 3:
+                    tool_choice = "none"
+
                 response = (
                     self.client
                     .chat
@@ -860,7 +890,7 @@ IMPORTANT TOOL RULES:
                         model=self.model,
                         messages=state.messages,
                         tools=self.tools,
-                        tool_choice="auto",
+                        tool_choice=tool_choice,
                     )
                 )
 
@@ -878,7 +908,18 @@ IMPORTANT TOOL RULES:
                     print("AGENT FINISHED")
 
                     answer = message.content or ""
-                    self._save_assistant_response(answer)
+
+                    if not answer.strip():
+
+                        answer = (
+                            "I was able to retrieve relevant "
+                            "information, but I could not "
+                            "generate a final answer."
+                        )
+
+                    self._save_assistant_response(
+                        answer
+                    )
 
                     return {
                         "answer": answer,
@@ -889,9 +930,7 @@ IMPORTANT TOOL RULES:
                     message
                 )
 
-                for tool_call in (
-                    message.tool_calls
-                ):
+                for tool_call in message.tool_calls:
 
                     function_name = (
                         tool_call
@@ -903,7 +942,6 @@ IMPORTANT TOOL RULES:
                     print("=" * 60)
                     print("TOOL REQUESTED")
                     print("-" * 60)
-
                     print(
                         "Function :",
                         function_name
@@ -921,10 +959,6 @@ IMPORTANT TOOL RULES:
                         error_message = (
                             f"Unknown tool: "
                             f"{function_name}"
-                        )
-
-                        print(
-                            error_message
                         )
 
                         state.fail(
@@ -951,10 +985,6 @@ IMPORTANT TOOL RULES:
                             f"{exc}"
                         )
 
-                        print(
-                            error_message
-                        )
-
                         state.fail(
                             error_message
                         )
@@ -968,6 +998,10 @@ IMPORTANT TOOL RULES:
                         "Arguments:",
                         arguments
                     )
+
+                    if function_name == "search_documents":
+
+                        document_search_count += 1
 
                     try:
 
@@ -1018,17 +1052,67 @@ IMPORTANT TOOL RULES:
                         }
                     )
 
-            error_message = (
-                "Agent exceeded maximum "
-                f"iterations ({self.max_iterations})."
+            # The agent used all iterations.
+            # Do not discard useful retrieved evidence.
+            #
+            # Make one final LLM call without tools so that
+            # the retrieved results can still be synthesized.
+
+            print()
+            print("=" * 60)
+            print("FINAL SYNTHESIS")
+            print("=" * 60)
+
+            state.messages.append(
+                {
+                    "role": "system",
+                    "content": """
+    You must now provide the final answer.
+
+    Do not call any tools.
+
+    Use the retrieved tool results already present
+    in the conversation.
+
+    Synthesize the available evidence into the most
+    accurate answer possible.
+
+    For document-based answers, include source/page/section
+    information when it is available in the retrieved results.
+
+    Do not invent missing metadata.
+    """
+                }
             )
 
-            state.fail(
-                error_message
+            response = (
+                self.client
+                .chat
+                .completions
+                .create(
+                    model=self.model,
+                    messages=state.messages,
+                    tools=self.tools,
+                    tool_choice="none",
+                )
+            )
+
+            answer = (
+                response
+                .choices[0]
+                .message
+                .content
+                or ""
+            )
+
+            state.finish()
+
+            self._save_assistant_response(
+                answer
             )
 
             return {
-                "answer": None,
+                "answer": answer,
                 "state": state,
             }
 
@@ -1042,7 +1126,7 @@ IMPORTANT TOOL RULES:
                 "answer": None,
                 "state": state,
             }
-
+    
     def recover_from_failure(self, failed_step, state):
 
         error = state.error
