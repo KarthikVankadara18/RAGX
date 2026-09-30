@@ -17,15 +17,21 @@ class ChatResponse(BaseModel):
     user_id: str
     session_id: str | None = None
 
-@router.post("", response_model=ChatResponse)
+@router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
-    print(f"Received chat request: {request}")
 
-    service= ChatService(
+    print(
+        f"Received chat request: "
+        f"message='{request.message}' "
+        f"user_id='{request.user_id}' "
+        f"session_id='{request.session_id}'"
+    )
+
+    service = ChatService(
         user_id=request.user_id,
         session_id=request.session_id
     )
 
-    result= service.process_message(request.message)
+    result = service.process_message(request.message)
 
     return result

@@ -55,12 +55,17 @@ class FunctionCallingManager:
             session_id=session_id,
         )
 
+        # Keep the actual session ID available to the backend service.
+        # If the caller did not provide one, this is the generated UUID.
+        self.session_id = session_id
+
         # MongoDB-backed conversation memory.
         # This stores only user/assistant chat history in conversation_memory.
         self.persistent_memory = PersistentMemory()
         self.conversation_memory = ConversationMemory(
             persistent_memory=self.persistent_memory,
             session_id=session_id,
+            user_id=user_id
         )
 
         self.tool_registry = ToolRegistry()
@@ -317,16 +322,6 @@ class FunctionCallingManager:
         "DOCUMENT_LOOKUP": "search_documents",
         "CALCULATION": "calculator",
     }
-
-    action = step.get("action")
-    query = step.get("query")
-
-    authorization = self.security_manager.authorize_action(action)
-    if not authorization["allowed"]:
-        raise PermissionError(authorization["reason"])
-
-    user_id = self.security_manager.get_user_id()
-    session_id = self.security_manager.get_session_id()
 
     def execute_single_step(self, step, state):
 

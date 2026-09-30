@@ -16,10 +16,21 @@ class ChatService:
         )
 
     def process_message(self, message: str):
+
         result = self.agent.run(message)
 
+        print("DEBUG AGENT RESULT TYPE:", type(result))
+        print("DEBUG AGENT RESULT:", repr(result))
+
+        answer = ""
+
+        if isinstance(result, dict):
+            answer = result.get("answer") or ""
+
+        print("DEBUG FINAL ANSWER:", repr(answer))
+
         return {
-            "response": result.get("answer", ""),
+            "response": answer,
             "user_id": self.user_id,
             "session_id": self.session_id
         }

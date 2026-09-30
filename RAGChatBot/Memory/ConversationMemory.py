@@ -3,73 +3,52 @@ class ConversationMemory:
     def __init__(
         self,
         persistent_memory,
+        user_id,
         session_id,
         max_recent_messages=6
     ):
+        print("Conversation Memory Initialized")
 
-        print(
-            "Conversation Memory Initialized"
-        )
-
-        self.persistent_memory = (
-            persistent_memory
-        )
-
+        self.persistent_memory = persistent_memory
+        self.user_id = user_id
         self.session_id = session_id
+        self.max_recent_messages = max_recent_messages
 
-        self.max_recent_messages = (
-            max_recent_messages
+        self.messages = self.persistent_memory.load_messages(
+            session_id
         )
 
-        self.messages = (
-            self.persistent_memory
-            .load_messages(
-                session_id
-            )
+        self.summary = self.persistent_memory.load_summary(
+            session_id
         )
 
-        self.summary = (
-            self.persistent_memory
-            .load_summary(
-                session_id
-            )
-        )
-
-    def add_user_message(
-        self,
-        message
-    ):
+    def add_user_message(self, message):
 
         item = {
             "role": "user",
             "content": message
         }
 
-        self.messages.append(
-            item
-        )
+        self.messages.append(item)
 
         self.persistent_memory.save_message(
+            self.user_id,
             self.session_id,
             "user",
             message
         )
 
-    def add_assistant_message(
-        self,
-        message
-    ):
+    def add_assistant_message(self, message):
 
         item = {
             "role": "assistant",
             "content": message
         }
 
-        self.messages.append(
-            item
-        )
+        self.messages.append(item)
 
         self.persistent_memory.save_message(
+            self.user_id,
             self.session_id,
             "assistant",
             message
@@ -89,10 +68,7 @@ class ConversationMemory:
 
         return self.summary
 
-    def update_summary(
-        self,
-        summary
-    ):
+    def update_summary(self, summary):
 
         self.summary = summary
 
@@ -113,6 +89,4 @@ class ConversationMemory:
 
     def message_count(self):
 
-        return len(
-            self.messages
-        )
+        return len(self.messages)

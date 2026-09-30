@@ -32,8 +32,9 @@ class PersistentMemory:
         self.long_term_collection.create_index([("user_id", 1), ("type", 1), ("status", 1)])
 
 
-    def save_message(self, session_id, role, content):
+    def save_message(self, user_id, session_id, role, content):
         self.collection.insert_one({
+            "user_id": user_id,
             "session_id": session_id,
             "role": role,
             "content": content,
