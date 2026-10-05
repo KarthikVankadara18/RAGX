@@ -5,6 +5,7 @@ import uuid
 from groq import Groq
 from RAGChatBot.config import Config
 
+from RAGChatBot.Memory.LongTermMemoryManager import LongTermMemoryManager
 from RAGChatBot.FunctionCalling.AgentState import AgentState
 from RAGChatBot.FunctionCalling.RuntimeContext import RuntimeContext
 from RAGChatBot.FunctionCalling.ToolRegistry import ToolRegistry
@@ -62,10 +63,15 @@ class FunctionCallingManager:
         # MongoDB-backed conversation memory.
         # This stores only user/assistant chat history in conversation_memory.
         self.persistent_memory = PersistentMemory()
+
         self.conversation_memory = ConversationMemory(
             persistent_memory=self.persistent_memory,
             session_id=session_id,
             user_id=user_id
+        )
+
+        self.long_term_memory = LongTermMemoryManager(
+            self.persistent_memory
         )
 
         self.tool_registry = ToolRegistry()
@@ -163,7 +169,7 @@ class FunctionCallingManager:
 
         result = search_memory(
             query=query,
-            long_term_memory=self.persistent_memory,
+            long_term_memory=self.long_term_memory,
             user_id=self.runtime_context.user_id,
             session_id=self.runtime_context.session_id,
         )
@@ -741,10 +747,63 @@ RULES:
                 "state": state,
             }
             
-    def _save_assistant_response(self, answer):
-        """Persist a successful assistant response to MongoDB."""
-        if answer and answer.strip():
-            self.conversation_memory.add_assistant_message(answer.strip())
+    def _save_assistant_response(self, user_message, answer):
+        """Persist the response and update long-term memory."""
+
+        if not answer or not answer.strip():
+            return
+
+        answer = answer.strip()
+
+        # Save assistant response to conversation memory
+        self.conversation_memory.add_assistant_message(
+            answer
+        )
+
+        # Extract and persist important long-term memories
+        try:
+
+            decisions = self.long_term_memory.process_conversation(
+                user_id=self.runtime_context.user_id,
+                session_id=self.runtime_context.session_id,
+                user_message=user_message,
+                assistant_message=answer,
+            )
+
+            print()
+            print("=" * 60)
+            print("LONG-TERM MEMORY")
+            print("=" * 60)
+
+            for decision in decisions:
+
+                print(
+                    "Action:",
+                    decision.get("action")
+                )
+
+                print(
+                    "Memory:",
+                    decision.get("content")
+                )
+
+                print(
+                    "Type:",
+                    decision.get("memory_type")
+                )
+
+                print(
+                    "Importance:",
+                    decision.get("importance")
+                )
+
+        except Exception as exc:
+
+            print()
+            print(
+                "Long-term memory update failed:",
+                exc
+            )
 
     def run(self, user_query):
 
@@ -918,6 +977,7 @@ RULES:
                         )
 
                     self._save_assistant_response(
+                        user_query,
                         answer
                     )
 
@@ -1108,6 +1168,7 @@ RULES:
             state.finish()
 
             self._save_assistant_response(
+                user_query,
                 answer
             )
 

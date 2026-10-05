@@ -40,7 +40,7 @@ class PersistentMemory:
             "content": content,
         })
 
-    def load_messages(self, session_id, user_id):
+    def load_messages(self, user_id, session_id):
         cursor = (
             self.collection
             .find({
@@ -56,14 +56,14 @@ class PersistentMemory:
             for document in cursor
         ]
 
-    def save_summary(self, session_id, user_id, summary):
+    def save_summary(self, user_id, session_id, summary):
         self.collection.update_one(
             {"session_id": session_id, "user_id": user_id, "role": "summary"},
             {"$set": {"content": summary}},
             upsert=True,
         )
 
-    def load_summary(self, session_id, user_id):
+    def load_summary(self, user_id, session_id):
         document = self.collection.find_one({
             "session_id": session_id,
             "user_id": user_id,
@@ -71,7 +71,7 @@ class PersistentMemory:
         })
         return document.get("content", "") if document else ""
 
-    def clear_session(self, session_id, user_id):
+    def clear_session(self, user_id, session_id):
         self.collection.delete_many({"session_id": session_id, "user_id": user_id})
 
 

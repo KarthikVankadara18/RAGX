@@ -81,7 +81,6 @@ def calculator(expression: str):
             "error": str(e)
         }
 
-
 def search_memory(
     query: str,
     long_term_memory: LongTermMemoryManager,
@@ -89,37 +88,27 @@ def search_memory(
     session_id: str | None = None,
 ):
 
-    memories = long_term_memory.get_user_memories(
+    memories = long_term_memory.retrieve_memories(
+        query=query,
         user_id=user_id,
         session_id=session_id,
+        top_k=3,
         scope="user",
-        status="active",
+        relevance_threshold=0.30,
     )
-    
+
     formatted_memories = []
 
     for memory in memories:
 
         formatted_memories.append(
             {
-                "memory_id": memory.get(
-                    "memory_id"
-                ),
-                "content": memory.get(
-                    "content"
-                ),
-                "type": memory.get(
-                    "type"
-                ),
-                "importance": memory.get(
-                    "importance"
-                ),
-                "semantic_score": memory.get(
-                    "semantic_score"
-                ),
-                "final_score": memory.get(
-                    "final_score"
-                ),
+                "memory_id": memory.get("memory_id"),
+                "content": memory.get("content"),
+                "type": memory.get("type"),
+                "importance": memory.get("importance"),
+                "semantic_score": memory.get("semantic_score"),
+                "final_score": memory.get("final_score"),
             }
         )
 
