@@ -5,7 +5,6 @@ from pymongo import MongoClient
 
 from RAGChatBot.config import Config
 
-
 class PersistentMemory:
 
     def __init__(self):
@@ -19,6 +18,8 @@ class PersistentMemory:
         self.collection = self.database[Config.MONGODB_COLLECTION]
 
         self.long_term_collection = self.database["long_term_memories"]
+        self.users_collection = self.database["users"]
+        self.sessions_collection = self.database["chat_session"]
 
         self.client.admin.command("ping")
         print("MongoDB Connected Successfully.")
@@ -30,11 +31,13 @@ class PersistentMemory:
         self.long_term_collection.create_index([("user_id", 1), ("status", 1)])
         self.long_term_collection.create_index([("user_id", 1), ("session_id", 1)])
         self.long_term_collection.create_index([("user_id", 1), ("type", 1), ("status", 1)])
+        self.users_collection.create_index("email", unique=True)
+        self.sessions_collection.create_index([("user_id", 1),("session_id", 1)],unique=True)
 
-
-    def save_message(self, user_id, session_id, role, content):
+    def save_message(self, user_id, email, session_id, role, content):
         self.collection.insert_one({
             "user_id": user_id,
+            "email": email,
             "session_id": session_id,
             "role": role,
             "content": content,
@@ -262,3 +265,54 @@ class PersistentMemory:
 
     def close(self):
         self.client.close()
+
+    def create_chat_session(
+        self,
+        user_id: str,
+        email: str,
+        session_id: str
+    ):
+        now = datetime.now(timezone.utc)
+
+        document = {
+            "user_id": user_id,
+            "email": email,
+            "session_id": session_id,
+            "created_at": now,
+            "updated_at": now,
+        }
+
+        self.sessions_collection.insert_one(document)
+
+        return document
+
+
+    def get_chat_session(
+        self,
+        user_id: str,
+        session_id: str
+    ):
+        return self.sessions_collection.find_one(
+            {
+                "user_id": user_id,
+                "session_id": session_id,
+            }
+        )
+
+
+    def update_chat_session(
+        self,
+        user_id: str,
+        session_id: str
+    ):
+        self.sessions_collection.update_one(
+            {
+                "user_id": user_id,
+                "session_id": session_id,
+            },
+            {
+                "$set": {
+                    "updated_at": datetime.now(timezone.utc)
+                }
+            }
+        )

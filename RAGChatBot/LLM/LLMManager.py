@@ -41,3 +41,21 @@ class LLMManager:
             raise ValueError("LLM returned an empty response.")
 
         return answer.strip()
+    
+    def stream_response_from_messages(self, messages):
+        if not messages:
+            raise ValueError("Messages cannot be empty.")
+
+        stream = self.client.chat.completions.create(
+            model=self.model,
+            messages=messages,
+            temperature=Config.GROQ_TEMPERATURE,
+            max_completion_tokens=Config.GROQ_MAX_TOKENS,
+            stream=True
+        )
+
+        for chunk in stream:
+            content = chunk.choices[0].delta.content
+
+            if content:
+                yield content

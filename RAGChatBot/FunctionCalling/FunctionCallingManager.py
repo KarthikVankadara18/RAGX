@@ -29,6 +29,7 @@ class FunctionCallingManager:
     def __init__(
         self,
         user_id="default_user",
+        email=None,
         session_id=None,
     ):
 
@@ -67,7 +68,8 @@ class FunctionCallingManager:
         self.conversation_memory = ConversationMemory(
             persistent_memory=self.persistent_memory,
             session_id=session_id,
-            user_id=user_id
+            user_id=user_id,
+            email=email,
         )
 
         self.long_term_memory = LongTermMemoryManager(
@@ -804,6 +806,316 @@ RULES:
                 "Long-term memory update failed:",
                 exc
             )
+    def stream_final_answer(self, messages):
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=messages,
+            temperature=0.2,
+            max_completion_tokens=Config.GROQ_MAX_TOKENS,
+            stream=True
+        )
+
+        for chunk in response:
+            content = chunk.choices[0].delta.content
+
+            if content:
+                yield content
+
+    def run_stream(self, user_query):
+        if not user_query or not user_query.strip():
+            raise ValueError("Query cannot be empty.")
+
+        state = AgentState(
+            user_query=user_query
+        )
+
+        state.messages = [
+            {
+                "role": "system",
+                "content": """
+        You are an intelligent AI agent.
+
+        Your job is to answer the user's request accurately
+        using the available tools when necessary.
+
+        AVAILABLE TOOLS:
+
+        1. search_memory
+
+        Use this when the user asks about themselves,
+        their projects, goals, preferences, skills,
+        personal facts, previous conversations,
+        or information previously remembered about them.
+
+        2. search_documents
+
+        Use this when the answer requires information
+        from the uploaded document collection.
+
+        3. calculator
+
+        Use this when an exact mathematical calculation
+        is required.
+
+        IMPORTANT TOOL RULES:
+
+        - Choose the tool based on the source of information required.
+        - Personal/user-specific information belongs to search_memory.
+        - Uploaded-document information belongs to search_documents.
+        - Mathematical calculations belong to calculator.
+
+        SEARCH_DOCUMENTS RULES:
+
+        - When search_documents returns useful evidence, use that
+        evidence to construct the answer.
+        - Do not repeatedly search for minor wording variations
+        when the existing results already contain enough evidence.
+        - If multiple retrieved chunks answer different parts of
+        the question, combine them into one answer.
+        - Prefer the retrieved document evidence over your own
+        general knowledge.
+        - Never invent document facts that were not returned by
+        search_documents.
+
+        SOURCE INFORMATION:
+
+        When search_documents returns source, page, section,
+        or subsection metadata, preserve and use it in the answer.
+
+        For document-based answers, include source information
+        when useful.
+
+        Do not invent page numbers or source names.
+
+        FINAL ANSWER RULE:
+
+        Once you have enough information to answer the user's
+        question, STOP using tools and provide the final answer.
+
+        Do not continue searching simply to make the answer more
+        complete if the retrieved evidence is already sufficient.
+
+        If several search results contain different phases,
+        sections, or pieces of information, synthesize them
+        into one coherent answer.
+
+        Never return an empty answer when useful tool results
+        are already available.
+        """
+            },
+            *self.conversation_memory.get_recent_messages(),
+            {
+                "role": "user",
+                "content": user_query,
+            }
+        ]
+
+        self.conversation_memory.add_user_message(user_query)
+
+        document_search_count = 0
+
+        try:
+            for _ in range(self.max_iterations):
+
+                state.increment_iteration()
+
+                print()
+                print("=" * 60)
+                print(f"AGENT STREAM ITERATION {state.iteration}")
+                print("=" * 60)
+
+                tool_choice = "auto"
+
+                if document_search_count >= 3:
+                    tool_choice = "none"
+
+                response = (
+                    self.client
+                    .chat
+                    .completions
+                    .create(
+                        model=self.model,
+                        messages=state.messages,
+                        tools=self.tools,
+                        tool_choice=tool_choice
+                    )
+                )
+
+                message = response.choices[0].message
+
+                if not message.tool_calls:
+
+                    state.finish()
+
+                    print()
+                    print("STREAMING FINAL ANSWER")
+
+                    chunks = []
+
+                    for chunk in self.stream_final_answer(
+                        state.messages
+                    ):
+                        chunks.append(chunk)
+                        yield chunk
+
+                    answer = "".join(chunks)
+
+                    if not answer.strip():
+                        answer = (
+                            "I was able to retrieve relevant "
+                            "information, but I could not "
+                            "generate a final answer."
+                        )
+
+                    self._save_assistant_response(
+                        user_query,
+                        answer
+                    )
+
+                    return
+
+                state.messages.append(message)
+
+                for tool_call in message.tool_calls:
+
+                    function_name = (
+                        tool_call
+                        .function
+                        .name
+                    )
+
+                    print()
+                    print("=" * 60)
+                    print("TOOL REQUESTED")
+                    print("-" * 60)
+                    print("Function :", function_name)
+
+                    tool = (
+                        self.tool_registry
+                        .get_tool(function_name)
+                    )
+
+                    if tool is None:
+
+                        error_message = (
+                            f"Unknown tool: {function_name}"
+                        )
+
+                        state.fail(error_message)
+
+                        return
+
+                    try:
+                        arguments = json.loads(
+                            tool_call
+                            .function
+                            .arguments
+                        )
+
+                    except json.JSONDecodeError as exc:
+
+                        error_message = (
+                            "Invalid tool arguments: "
+                            f"{exc}"
+                        )
+
+                        state.fail(error_message)
+
+                        return
+
+                    print("Arguments:", arguments)
+
+                    if function_name == "search_documents":
+                        document_search_count += 1
+
+                    try:
+                        result = tool(
+                            **arguments
+                        )
+
+                        state.add_tool_result(
+                            tool_name=function_name,
+                            arguments=arguments,
+                            result=result
+                        )
+
+                        print("\nTool executed successfully.")
+
+                    except Exception as exc:
+
+                        result = {
+                            "error": str(exc)
+                        }
+
+                        state.add_tool_result(
+                            tool_name=function_name,
+                            arguments=arguments,
+                            result=result
+                        )
+
+                        print("\nTool execution failed:")
+                        print(str(exc))
+
+                    state.messages.append(
+                        {
+                            "role": "tool",
+                            "tool_call_id": tool_call.id,
+                            "content": json.dumps(
+                                result,
+                                ensure_ascii=False
+                            ),
+                        }
+                    )
+
+            # Maximum iterations reached.
+            print()
+            print("=" * 60)
+            print("FINAL STREAMING SYNTHESIS")
+            print("=" * 60)
+
+            state.messages.append(
+                {
+                    "role": "system",
+                    "content": """
+        You must now provide the final answer.
+
+        Do not call any tools.
+
+        Use the retrieved tool results already present
+        in the conversation.
+
+        Synthesize the available evidence into the most
+        accurate answer possible.
+
+        For document-based answers, include source/page/section
+        information when it is available in the retrieved results.
+
+        Do not invent missing metadata.
+        """
+                }
+            )
+
+            state.finish()
+
+            chunks = []
+
+            for chunk in self.stream_final_answer(
+                state.messages
+            ):
+                chunks.append(chunk)
+                yield chunk
+
+            answer = "".join(chunks)
+
+            self._save_assistant_response(
+                user_query,
+                answer
+            )
+
+        except Exception as exc:
+
+            state.fail(str(exc))
+            print("Streaming agent failed:", exc)
 
     def run(self, user_query):
 

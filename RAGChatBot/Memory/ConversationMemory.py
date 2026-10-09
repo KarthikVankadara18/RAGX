@@ -4,6 +4,7 @@ class ConversationMemory:
         self,
         persistent_memory,
         user_id,
+        email,
         session_id,
         max_recent_messages=6
     ):
@@ -11,6 +12,7 @@ class ConversationMemory:
 
         self.persistent_memory = persistent_memory
         self.user_id = user_id
+        self.email = email
         self.session_id = session_id
         self.max_recent_messages = max_recent_messages
 
@@ -35,6 +37,7 @@ class ConversationMemory:
 
         self.persistent_memory.save_message(
             self.user_id,
+            self.email,
             self.session_id,
             "user",
             message
@@ -51,6 +54,7 @@ class ConversationMemory:
 
         self.persistent_memory.save_message(
             self.user_id,
+            self.email,
             self.session_id,
             "assistant",
             message
